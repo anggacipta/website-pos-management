@@ -20,3 +20,6 @@ Route::get('/', function () {
 Route::get('/test-lte', function () {
     return view('dashboard/admin/index');
 });
+
+// Route Ruangan
+Route::get('/ruangan', [\App\Http\Controllers\RuanganController::class, 'index'])->name('ruangan.index');
