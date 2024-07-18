@@ -12,4 +12,8 @@ class RuanganController extends Controller
         $ruangans = Ruangan::all();
         return view('dashboard.admin.ruangan.index', compact('ruangans'));
     }
+
+    public function create() {
+        return view('dashboard.admin.ruangan.create');
+    }
 }
