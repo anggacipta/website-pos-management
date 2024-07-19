@@ -22,4 +22,4 @@ Route::get('/test-lte', function () {
 });
 
 // Route Ruangan
-Route::get('/ruangan', [\App\Http\Controllers\RuanganController::class, 'index'])->name('ruangan.index');
+Route::resource('ruangan', \App\Http\Controllers\RuanganController::class);
