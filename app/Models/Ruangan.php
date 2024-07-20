@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Ruangan extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function barangs()
+    {
+        return $this->hasMany(Barang::class, 'ruang_id');
+    }
 }

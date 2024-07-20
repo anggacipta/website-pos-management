@@ -17,7 +17,7 @@
                     @foreach ($ruangans as $ruangan)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $ruangan->nama_ruangan }}</td>
+                            <td>{{ $ruangan->nama_ruang }}</td>
                             <td>
                                 <a href="{{ route('ruangan.edit', $ruangan->id) }}" class="btn btn-warning">Edit</a>
                                 <form action="{{ route('ruangan.destroy', $ruangan->id) }}" method="post" class="d-inline">
