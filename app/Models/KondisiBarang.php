@@ -10,4 +10,9 @@ class KondisiBarang extends Model
     use HasFactory;
 
     protected $fillable = ['kondisi_barang'];
+
+    public function barang()
+    {
+        return $this->hasMany(Barang::class, 'kondisi_barang_id');
+    }
 }

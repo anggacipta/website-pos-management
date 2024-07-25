@@ -42,6 +42,15 @@ Route::middleware(['auth', 'checkrole:admin'])->group(function () {
 
     // Route Unit Kerja
     Route::resource('unit-kerja', \App\Http\Controllers\Admin\UnitKerjaController::class);
+
+    // Get Barang
+    Route::get('barang/count/{unitKerjaId}', [\App\Http\Controllers\BarangController::class, 'countByUnitKerja']);
+});
+
+Route::middleware(['auth', 'checkrole:user'])->group(function () {
+    Route::get('/user', function () {
+        return view('dashboard/admin/index');
+    });
 });
 
 //Route::middleware(['checkrole:admin'])->group(function () {

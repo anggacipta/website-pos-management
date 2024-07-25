@@ -15,7 +15,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
 
         if (auth()->attempt($credentials)) {
             // Check user role
@@ -41,6 +41,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
+            'username' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:8',
         ]);
@@ -48,11 +49,12 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'username' => $request->username,
             'password' => Hash::make($request->password),
             'role_id' => 2
         ]);
 
-        auth()->login($user);
+//        auth()->login($user);
 
         return redirect('/login');
     }
