@@ -41,7 +41,7 @@ class MaintenanceController extends Controller
                     ->orWhere('kondisi_barang', 'like', 'rusak');
             })
             ->get();
-        return view('dashboard.admin.maintenance.index_maintenance_lanjutan', compact('maintenances'));
+        return view('dashboard.admin.maintenance.index_maintenance_rusak', compact('maintenances'));
     }
 
     public function create($barangId)
