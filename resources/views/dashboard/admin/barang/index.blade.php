@@ -22,6 +22,7 @@
                         <th>Merk Barang</th>
                         <th>Kondisi Barang</th>
                         <th>Keterangan</th>
+                        <th>Maintenance</th>
                         <th>Aksi</th>
                     </tr>
                     </thead>
@@ -41,7 +42,9 @@
                             <td>{{ $barang->merkBarang->merk_barang }}</td>
                             <td>{{ $barang->kondisiBarang->kondisi_barang }}</td>
                             <td>{{ $barang->keterangan }}</td>
-
+                            <td>
+                                <a href="{{ route('maintenance.create', $barang->id) }}" class="btn btn-success">Maintenance</a>
+                            </td>
                             <td>
                                 <a href="{{ route('barang.edit', $barang->id) }}" class="btn btn-warning">Edit</a>
                                 <form action="{{ route('barang.destroy', $barang->id) }}" method="post" class="d-inline">
@@ -58,4 +61,10 @@
         </div>
         @include('dashboard.admin.layouts.footer')
     </div>
+    <script>
+        $('#bs-example-modal-md').on('show.bs.modal', function(event) {
+            const id = $(event.relatedTarget).data('id');
+            $(this).find('#barangId').val(id);
+        });
+    </script>
 @endsection

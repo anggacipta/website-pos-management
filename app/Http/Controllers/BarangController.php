@@ -17,7 +17,8 @@ class BarangController extends Controller
     public function index()
     {
         $barangs = Barang::all();
-        return view('dashboard.admin.barang.index', compact('barangs'));
+        $kondisi = KondisiBarang::query()->where('kondisi_barang', 'maintenance')->get();
+        return view('dashboard.admin.barang.index', compact('barangs', 'kondisi'));
     }
 
     public function create()

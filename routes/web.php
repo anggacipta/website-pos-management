@@ -43,6 +43,19 @@ Route::middleware(['auth', 'checkrole:admin'])->group(function () {
     // Route Unit Kerja
     Route::resource('unit-kerja', \App\Http\Controllers\Admin\UnitKerjaController::class);
 
+    // Route Maintenance
+    Route::resource('maintenance', \App\Http\Controllers\Admin\MaintenanceController::class);
+
+    // Extra Route Maintenance
+    Route::get('maintenance-lanjutan', [\App\Http\Controllers\Admin\MaintenanceController::class, 'indexMaintenanceLanjutan'])->name('maintenance.lanjutan.index');
+    Route::get('maintenance-rusak', [\App\Http\Controllers\Admin\MaintenanceController::class, 'indexMaintenanceRusak'])->name('maintenance.rusak.index');
+    Route::get('maintenance/create/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'create'])->name('maintenance.create');
+    Route::get('maintenance-lanjutan/{maintenanceId}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'createMaintenanceLanjutan'])->name('maintenance.lanjutan');
+    Route::put('maintenan-lanjutan/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'updateMaintenanceLanjutan'])->name('maintenance.lanjutan.update');
+    Route::get('maintenance-rusak/{maintenanceId}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'createMaintenanceRusak'])->name('maintenance.rusak');
+    Route::put('maintenance-rusak/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'updateMaintenanceRusak'])->name('maintenance.rusak.update');
+    Route::delete('maintenance-diperbaiki/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'maintenanceDiperbaiki'])->name('maintenance.diperbaiki');
+
     // Get Barang
     Route::get('barang/count/{unitKerjaId}', [\App\Http\Controllers\BarangController::class, 'countByUnitKerja']);
 });

@@ -99,12 +99,33 @@
                         <span class="hide-menu">Tambah Barang</span>
                     </a>
                 </li>
+
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Maintenance</span>
+                </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('maintenance.index') }}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-typography"></i>
+                            <i class="ti ti-cards"></i>
                         </span>
-                        <span class="hide-menu">Typography</span>
+                        <span class="hide-menu">Data Maintenance</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('maintenance.lanjutan.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-cards"></i>
+                        </span>
+                        <span class="hide-menu">Data Maintenance Lanjutan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('maintenance.rusak.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-cards"></i>
+                        </span>
+                        <span class="hide-menu">Data Barang Rusak</span>
                     </a>
                 </li>
 

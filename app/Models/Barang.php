@@ -40,4 +40,9 @@ class Barang extends Model
     {
         return $this->belongsTo(UnitKerja::class, 'unit_kerja_id');
     }
+
+    public function maintenance()
+    {
+        $this->hasMany(Maintenance::class, 'barang_id');
+    }
 }
