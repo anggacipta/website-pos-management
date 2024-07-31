@@ -40,7 +40,7 @@
                                         <div id="get-perbaiki" style="min-height: 144.533px;"></div>
                                         <div class="d-flex align-items-end justify-content-between mt-7">
                                             <div>
-                                                <p class="mb-1">Total Barang yang Telah Diperbaiki</p>
+                                                <p class="mb-1">Total Barang yang Telah Diperbaiki Bulan Ini</p>
                                                 <h4 class="mb-0 fw-semibold">{{ $currentMonthMaintenances }} barang</h4>
                                             </div>
                                             <span class="text-success fw-normal">{{ $percentageChangeMaintenance > 0 ? '+' : '' }}{{ number_format($percentageChangeMaintenance, 2) }}%</span>
