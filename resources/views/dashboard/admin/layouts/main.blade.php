@@ -40,9 +40,13 @@
     <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('assets/js/app.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/dist/simplebar.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/theme/app.min.js') }}"></script>
+    <script src="{{ asset('assets/js/theme/theme.js') }}"></script>
+
+    <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.js') }}"></script>
+{{--    <script src="{{ asset('assets/js/widget/widgets-chart.js') }}"></script>--}}
     {{--  DateRange  --}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -77,7 +81,7 @@
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
                 "paging": true,
@@ -97,6 +101,7 @@
             $('.js-example-basic-single').select2();
         });
     </script>
+    @yield('scripts')
 </body>
 
 </html>

@@ -13,8 +13,11 @@ class Maintenance extends Model
         'alasan_rusak',
         'catatan',
         'harga',
+        'diperbaiki',
+        'disetujui',
         'kondisi_barang_id',
-        'barang_id'
+        'barang_id',
+        'vendor_id'
     ];
 
     public function barang()
@@ -25,5 +28,10 @@ class Maintenance extends Model
     public function kondisiBarang()
     {
         return $this->belongsTo(KondisiBarang::class, 'kondisi_barang_id');
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
     }
 }

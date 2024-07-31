@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th>No</th>
@@ -43,7 +43,11 @@
                             <td>{{ $barang->kondisiBarang->kondisi_barang }}</td>
                             <td>{{ $barang->keterangan }}</td>
                             <td>
-                                <a href="{{ route('maintenance.create', $barang->id) }}" class="btn btn-success">Maintenance</a>
+                                @if($barang->kondisiBarang->kondisi_barang == 'Maintenance' || $barang->kondisiBarang->kondisi_barang == 'Maintenance Lanjutan')
+                                    <span class="btn btn-info">Sedang Maintenance</span>
+                                @else
+                                    <a href="{{ route('maintenance.create', $barang->id) }}" class="btn btn-success">Maintenance</a>
+                                @endif
                             </td>
                             <td>
                                 <a href="{{ route('barang.edit', $barang->id) }}" class="btn btn-warning">Edit</a>

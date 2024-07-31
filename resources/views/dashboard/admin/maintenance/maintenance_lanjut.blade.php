@@ -27,6 +27,17 @@
                                     <option value="{{ $kondisiBarang->id }}">{{ $kondisiBarang->kondisi_barang }}</option>
                                 </select>
                             </div>
+                           <div class="mb-3">
+                               <label for="vendor" class="form-label">Vendor</label>
+                               <select class="form-control js-example-basic-single" name="vendor_id"
+                                       id="vendor">
+                                   <option>Pilih Vendor</option>
+                                   @foreach ($vendors as $vendor)
+                                       <option value="{{ $vendor->id }}">{{ $vendor->nama_vendor }}
+                                       </option>
+                                   @endforeach
+                               </select>
+                           </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>

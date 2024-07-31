@@ -17,18 +17,21 @@ class AuthController extends Controller
     {
         $credentials = $request->only('username', 'password');
 
+        // Attempt to authenticate the user
         if (auth()->attempt($credentials)) {
-            // Check user role
-            switch (auth()->user()->role->name) {
-                case 'admin':
-                    return redirect()->intended('/admin');
+            // Check user role and redirect accordingly
+            $roleName = auth()->user()->role->name;
+            switch ($roleName) {
+                case 'server':
+                case 'iprs':
                 case 'user':
-                    return redirect()->intended('/user');
+                    return redirect()->intended('/dashboard');
                 default:
                     return redirect()->intended('/home');
             }
         }
 
+        // If authentication fails, return an error message
         return back()->with('error', 'Invalid credentials');
     }
 

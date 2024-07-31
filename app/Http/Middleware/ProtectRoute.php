@@ -17,8 +17,12 @@ class ProtectRoute
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role->name == 'admin') {
+        if (Auth::check() && Auth::user()->role->name == 'server') {
             return $next($request);
+        } elseif (Auth::check() && Auth::user()->role->name == 'iprs') {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('login');
         }
     }
 }

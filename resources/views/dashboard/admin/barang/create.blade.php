@@ -18,7 +18,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ route('barang.store') }}" method="post" enctype="multipart/form-data">
+                        <form id="barangForm" action="{{ route('barang.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
@@ -140,7 +140,7 @@
 
     <script>
         $(document).ready(function() {
-            $("form").submit(function(e) {
+            $("#barangForm").submit(function(e) {
                 var namaBarang = $("input[name='nama_barang']").val();
                 var unitKerjaId = $("select[name='unit_kerja_id']").val();
                 var jenisBarangId = $("select[name='jenis_barang_id']").val();

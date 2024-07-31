@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('maintenances', function (Blueprint $table) {
+            $table->string('diperbaiki')->nullable()->after('harga');
+            $table->string('disetujui')->nullable()->after('harga');
         });
     }
 
@@ -27,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::table('maintenances', function (Blueprint $table) {
+            $table->dropColumn('diperbaiki');
+            $table->dropColumn('disetujui');
+        });
     }
 };

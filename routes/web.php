@@ -2,31 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::middleware(['auth', 'checkrole:admin'])->group(function () {
-    Route::get('/admin', function () {
-        return view('dashboard/admin/index');
-    });
+// Route for server
+Route::middleware(['auth'])->group(function () {
+    Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
 
     // Route Ruangan
     Route::resource('ruangan', \App\Http\Controllers\RuanganController::class);
 
     // Route Barang
-    Route::resource('barang', \App\Http\Controllers\BarangController::class);
+    Route::resource('barang', \App\Http\Controllers\Admin\BarangController::class);
 
     // Route Jenis Barang
     Route::resource('jenis-barang', \App\Http\Controllers\Admin\JenisBarangController::class);
@@ -43,45 +27,42 @@ Route::middleware(['auth', 'checkrole:admin'])->group(function () {
     // Route Unit Kerja
     Route::resource('unit-kerja', \App\Http\Controllers\Admin\UnitKerjaController::class);
 
+    // Route Vendor
+    Route::resource('vendor', \App\Http\Controllers\Admin\VendorController::class);
+
     // Route Maintenance
     Route::resource('maintenance', \App\Http\Controllers\Admin\MaintenanceController::class);
 
     // Extra Route Maintenance
     Route::get('maintenance-lanjutan', [\App\Http\Controllers\Admin\MaintenanceController::class, 'indexMaintenanceLanjutan'])->name('maintenance.lanjutan.index');
     Route::get('maintenance-rusak', [\App\Http\Controllers\Admin\MaintenanceController::class, 'indexMaintenanceRusak'])->name('maintenance.rusak.index');
+    Route::get('maintenance-diperbaiki', [\App\Http\Controllers\Admin\MaintenanceController::class, 'indexMaintenanceDiperbaiki'])->name('maintenance.diperbaiki.index');
     Route::get('maintenance/create/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'create'])->name('maintenance.create');
     Route::get('maintenance-lanjutan/{maintenanceId}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'createMaintenanceLanjutan'])->name('maintenance.lanjutan');
-    Route::put('maintenan-lanjutan/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'updateMaintenanceLanjutan'])->name('maintenance.lanjutan.update');
+    Route::put('maintenance-lanjutan/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'updateMaintenanceLanjutan'])->name('maintenance.lanjutan.update');
     Route::get('maintenance-rusak/{maintenanceId}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'createMaintenanceRusak'])->name('maintenance.rusak');
     Route::put('maintenance-rusak/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'updateMaintenanceRusak'])->name('maintenance.rusak.update');
-    Route::delete('maintenance-diperbaiki/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'maintenanceDiperbaiki'])->name('maintenance.diperbaiki');
+    Route::get('maintenance-diperbaiki/{maintenanceId}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'createBerhasilDiperbaiki'])->name('maintenance.diperbaiki');
+    Route::get('maintenance-diperbaiki-lanjutan/{maintenanceId}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'createBerhasilDiperbaikiLanjutan'])->name('maintenance.diperbaiki.lanjutan');
+    Route::put('maintenance-diperbaiki/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'updateMaintenanceDiperbaiki'])->name('maintenance.diperbaiki.update');
+    // Get Kode Barang
+    Route::get('barang/count/{unitKerjaId}', [\App\Http\Controllers\Admin\BarangController::class, 'countByUnitKerja']);
 
-    // Get Barang
-    Route::get('barang/count/{unitKerjaId}', [\App\Http\Controllers\BarangController::class, 'countByUnitKerja']);
+    // Route Roles
+    Route::resource('roles', \App\Http\Controllers\RolePermissionController::class);
+
+    // Route Permissions
+    Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
+
+    // Extra Route Roles and Permissions
+    Route::get('roles/{role}/permissions', [\App\Http\Controllers\RolePermissionController::class, 'edit'])->name('roles.permissions.edit');
+    Route::put('roles/{role}/permissions', [\App\Http\Controllers\RolePermissionController::class, 'update'])->name('roles.permissions.update');
+
+    // Route Users
+    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+    Route::get('users/create', [\App\Http\Controllers\UserController::class, 'create'])->name('users.create');
+    Route::post('users', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
+    Route::get('users/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
+    Route::put('users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
+    Route::delete('users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 });
-
-Route::middleware(['auth', 'checkrole:user'])->group(function () {
-    Route::get('/user', function () {
-        return view('dashboard/admin/index');
-    });
-});
-
-//Route::middleware(['checkrole:admin'])->group(function () {
-//
-//});
-//
-//Route::middleware('checkrole:user')->group(function () {
-//    Route::get('/user', function () {
-//        return view('dashboard/admin/index');
-//    });
-//
-//    // Route Ruangan
-//    Route::resource('ruangan', \App\Http\Controllers\RuanganController::class);
-//
-//    // Route Barang
-//    Route::resource('barang', \App\Http\Controllers\BarangController::class);
-//
-//    // Route Jenis Barang
-//    Route::resource('jenis-barang', \App\Http\Controllers\Admin\JenisBarangController::class);
-//});
-//
