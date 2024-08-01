@@ -73,6 +73,19 @@
                                     @endif
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="unit_kerja_id" class="form-label">Unit Kerja</label>
+                                    <select class="form-control js-example-basic-single" name="unit_kerja_id" id="unit_kerja_id">
+                                        <option value="">Pilih Unit Kerja</option>
+                                        @foreach ($unitKerjas as $unit)
+                                            <option value="{{ $unit->id }}" {{ old('unit_kerja_id') == $unit->id ? 'selected' : '' }}>{{ $unit->unit_kerja }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if ($errors->has('unit_kerja_id'))
+                                        <div class="error">{{ $errors->first('unit_kerja_id') }}</div>
+                                    @endif
+                                </div>
+
                                 <button type="submit" class="btn btn-primary">Create User</button>
                             </form>
                     </div>

@@ -12,6 +12,7 @@
                     <th>Nama User</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Unit Kerja</th>
                     <th>Aksi</th>
                 </tr>
                 </thead>
@@ -22,6 +23,7 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->role->name }}</td>
+                        <td>{{ $user->unitKerja->unit_kerja }}</td>
                         <td>
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('users.destroy', $user->id) }}" method="post" class="d-inline">

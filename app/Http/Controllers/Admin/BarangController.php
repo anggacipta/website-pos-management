@@ -17,9 +17,17 @@ class BarangController extends Controller
 {
     public function index()
     {
-        $barangs = Barang::all();
-        $kondisi = KondisiBarang::query()->where('kondisi_barang', 'maintenance')->get();
-        return view('dashboard.admin.barang.index', compact('barangs', 'kondisi'));
+        $user = auth()->user();
+        $unitKerjaId = $user->unit_kerja_id;
+
+        // Retrieve barang data for the logged-in user's unit_kerja_id and exclude items with kondisi_barang == 'Rusak'
+        $barangs = Barang::where('unit_kerja_id', $unitKerjaId)
+            ->whereHas('kondisiBarang', function ($query) {
+                $query->where('kondisi_barang', '!=', 'Rusak');
+            })
+            ->get();
+
+        return view('dashboard.admin.barang.index', compact('barangs'));
     }
 
     public function create()

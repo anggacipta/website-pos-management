@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\UnitKerja;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('dashboard.admin.users.create', compact('roles'));
+        $unitKerjas = UnitKerja::all();
+        return view('dashboard.admin.users.create', compact('roles', 'unitKerjas'));
     }
 
     public function store(Request $request)
@@ -29,6 +31,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role_id' => 'required|exists:roles,id',
+            'unit_kerja_id' => 'required|exists:unit_kerjas,id',
         ]);
 
         User::create([
@@ -37,6 +40,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
+            'unit_kerja_id' => $request->unit_kerja_id,
         ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
@@ -44,7 +48,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('dashboard.admin.users.edit', compact('user'));
+        $unitKerjas = UnitKerja::all();
+        return view('dashboard.admin.users.edit', compact('user', 'unitKerjas'));
     }
 
     public function update(Request $request, User $user)
