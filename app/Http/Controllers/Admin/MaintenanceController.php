@@ -28,6 +28,11 @@ class MaintenanceController extends Controller
                     $query->whereIn('jenis_barang', ['Elektronik', 'Alat Kesehatan', 'Alat Rumah Tangga']);
                 });
             })
+            ->when($user->role->name === 'user', function ($query) {
+                $query->whereHas('barang.unitKerja', function ($query) {
+                    $query->where('unit_kerja_id', auth()->user()->unit_kerja_id);
+                });
+            })
             ->where('kondisi_barang_id', $maintenanceConditionId)
             ->get();
         return view('dashboard.admin.maintenance.index', compact('maintenances'));
@@ -170,24 +175,27 @@ class MaintenanceController extends Controller
     public function updateMaintenanceRusak(Request $request, $id)
     {
         try {
-            $request->validate([
-                'catatan' => 'required',
-                'kondisi_barang_id' => 'required',
-                'barang_id' => 'required',
-            ]);
+            $maintenance = Maintenance::find($id);
+            $barangId = $maintenance->barang_id;
+            $barang = Barang::find($barangId);
 
-            $maintenanceData = $request->all();
-            Maintenance::find($id)->update($maintenanceData);
+            $rusakKondisiBarangId = KondisiBarang::where('kondisi_barang', 'Rusak')->first()->id;
 
-            $barang = Barang::find($request->barang_id);
             $barang->update([
-                'kondisi_barang_id' => KondisiBarang::where('kondisi_barang', 'Rusak')->first()->id
+                'kondisi_barang_id' => $rusakKondisiBarangId
             ]);
 
-            return redirect()->route('maintenance.rusak.index')->with('success', 'Data maintenance rusak berhasil diupdate');
+            $maintenance->update([
+                'kondisi_barang_id' => $rusakKondisiBarangId,
+                'catatan' => $request->catatan,
+                'barang_id' => $request->barang_id,
+                'disetujui' => auth()->user()->name,
+            ]);
+
+            return redirect()->route('maintenance.rusak.index')->with('error', 'Barang gagal diperbaiki');
         } catch (\Exception $e) {
-            Log::error('Error in MaintenanceController@updateMaintenanceRusak: ', ['error' => $e->getMessage()]);
-            return back()->with('error', 'Terjadi kesalahan saat mengupdate data maintenance rusak');
+            Log::error('Error in MaintenanceController@destroy: ', ['error' => $e->getMessage()]);
+            return back()->with('error', 'Terjadi kesalahan saat menghapus data maintenance');
         }
     }
 

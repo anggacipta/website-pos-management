@@ -26,7 +26,9 @@ class RedirectIfAuthenticated
                 if (Auth::check() && Auth::user()->role->name == 'server') {
                     return redirect('/dashboard');
                 } elseif (Auth::check() && Auth::user()->role->name == 'iprs') {
-                    return redirect('/dashboard');
+                    return redirect('/barang');
+                } elseif (Auth::check() && Auth::user()->role->name == 'user') {
+                    return redirect('/barang');
                 }
             }
         }

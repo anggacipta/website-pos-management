@@ -37,6 +37,9 @@ class DashboardController extends Controller
         $monthlyAdditionsMaintenance = Maintenance::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
             ->groupBy('month')
             ->orderBy('month')
+            ->whereHas('kondisiBarang', function ($query) {
+                $query->where('kondisi_barang', '=', 'Rusak');
+            })
             ->get()
             ->pluck('count', 'month')
             ->toArray();
@@ -46,7 +49,12 @@ class DashboardController extends Controller
         $monthlyAdditionsMaintenance = array_replace(array_fill(1, 12, 0), $monthlyAdditionsMaintenance);
 
         // Calculate current and previous month additions
-        $currentMonthMaintenances = Maintenance::whereMonth('created_at', $currentMonth)->count();
+        $currentMonthMaintenancesDiperbaiki = Maintenance::whereMonth('created_at', $currentMonth)->whereHas('kondisiBarang', function ($query) {
+            $query->where('kondisi_barang', '=', 'Berhasil Diperbaiki');
+        })->count();
+        $currentMonthMaintenancesRusak = Maintenance::whereMonth('created_at', $currentMonth)->whereHas('kondisiBarang', function ($query) {
+            $query->where('kondisi_barang', '=', 'Rusak');
+        })->count();
         $currentMonthBarang = Barang::whereMonth('created_at', $currentMonth)->count();
 
         $currentMonthAdditionsBarang = $monthlyAdditionsBarang[$currentMonth] ?? 0;
@@ -58,6 +66,9 @@ class DashboardController extends Controller
         $percentageChangeBarang = $previousMonthAdditionsBarang ? (($currentMonthAdditionsBarang - $previousMonthAdditionsBarang) / $previousMonthAdditionsBarang) * 100 : 0;
         $percentageChangeMaintenance = $previousMonthAdditionsMaintenance ? (($currentMonthAdditionsMaintenance - $previousMonthAdditionsMaintenance) / $previousMonthAdditionsMaintenance) * 100 : 0;
 
-        return view('dashboard.admin.index', compact('serverPercentage', 'iprsPercentage', 'vendorPercentage', 'currentMonthBarang', 'monthlyAdditionsBarang', 'percentageChangeBarang', 'currentMonthMaintenances', 'percentageChangeMaintenance'));
+        return view('dashboard.admin.index', compact('serverPercentage', 'iprsPercentage', 'vendorPercentage', 'currentMonthBarang',
+            'monthlyAdditionsBarang', 'percentageChangeBarang',
+            'currentMonthMaintenancesDiperbaiki', 'currentMonthMaintenancesRusak', 'percentageChangeMaintenance',
+            'monthlyAdditionsMaintenance'));
     }
 }

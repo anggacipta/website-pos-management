@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -74,5 +75,25 @@ class RolePermissionController extends Controller
         $role->delete();
 
         return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
+    }
+
+    public function showForm()
+    {
+        $users = User::all();
+        $roles = Role::all();
+        return view('roles.assign_role', compact('users', 'roles'));
+    }
+
+    public function assignRole(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role' => 'required|exists:roles,name',
+        ]);
+
+        $user = User::find($request->user_id);
+        $user->assignRole($request->role);
+
+        return redirect()->back()->with('success', 'Role assigned successfully.');
     }
 }

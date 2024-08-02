@@ -11,11 +11,6 @@ class Role extends SpatieRole
 {
     use HasFactory;
 
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'model_has_roles', 'role_id', 'model_id');
-    }
-
     public function user()
     {
         return $this->hasMany(User::class);

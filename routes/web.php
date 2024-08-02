@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
 
-    // Route Ruangan
-    Route::resource('ruangan', \App\Http\Controllers\RuanganController::class);
-
     // Route Barang
     Route::resource('barang', \App\Http\Controllers\Admin\BarangController::class);
 
@@ -55,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
 
     // Extra Route Roles and Permissions
+    Route::get('/role-assignment', [\App\Http\Controllers\RolePermissionController::class, 'showForm'])->name('role-assignment.form');
+    Route::post('/role-assignment', [\App\Http\Controllers\RolePermissionController::class, 'assignRole'])->name('role-assignment.assign');
     Route::get('roles/{role}/permissions', [\App\Http\Controllers\RolePermissionController::class, 'edit'])->name('roles.permissions.edit');
     Route::put('roles/{role}/permissions', [\App\Http\Controllers\RolePermissionController::class, 'update'])->name('roles.permissions.update');
 

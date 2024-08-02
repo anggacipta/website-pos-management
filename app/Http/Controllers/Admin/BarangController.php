@@ -20,12 +20,17 @@ class BarangController extends Controller
         $user = auth()->user();
         $unitKerjaId = $user->unit_kerja_id;
 
-        // Retrieve barang data for the logged-in user's unit_kerja_id and exclude items with kondisi_barang == 'Rusak'
-        $barangs = Barang::where('unit_kerja_id', $unitKerjaId)
-            ->whereHas('kondisiBarang', function ($query) {
-                $query->where('kondisi_barang', '!=', 'Rusak');
-            })
-            ->get();
+        if (in_array($unitKerjaId, [UnitKerja::where('unit_kerja', 'Logistik')->first()->id, UnitKerja::where('unit_kerja', 'IPSRS')->first()->id])) {
+            $barangs = Barang::whereHas('kondisiBarang', function ($query) {
+               $query->where('kondisi_barang', '!=', 'Rusak');
+            })->get();
+        } else {
+            $barangs = Barang::where('unit_kerja_id', $unitKerjaId)
+                ->whereHas('kondisiBarang', function ($query) {
+                    $query->where('kondisi_barang', '!=', 'Rusak');
+                })
+                ->get();
+        }
 
         return view('dashboard.admin.barang.index', compact('barangs'));
     }

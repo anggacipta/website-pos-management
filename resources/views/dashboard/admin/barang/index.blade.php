@@ -50,12 +50,16 @@
                                 @endif
                             </td>
                             <td>
+                                @can('update.barang')
                                 <a href="{{ route('barang.edit', $barang->id) }}" class="btn btn-warning">Edit</a>
+                                @endcan
+                                @can('delete.barang')
                                 <form action="{{ route('barang.destroy', $barang->id) }}" method="post" class="d-inline">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

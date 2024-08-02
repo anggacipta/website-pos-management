@@ -34,7 +34,7 @@ class UserController extends Controller
             'unit_kerja_id' => 'required|exists:unit_kerjas,id',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
@@ -42,6 +42,9 @@ class UserController extends Controller
             'role_id' => $request->role_id,
             'unit_kerja_id' => $request->unit_kerja_id,
         ]);
+
+        $role = Role::find($request->role_id);
+        $user->assignRole($role->name);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
@@ -58,10 +61,12 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
+            'unit_kerja_id' => 'required|exists:unit_kerjas,id',
         ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->unit_kerja_id = $request->unit_kerja_id;
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }

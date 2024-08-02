@@ -18,6 +18,7 @@
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Home</span>
                 </li>
+                @if(\Illuminate\Support\Facades\Auth::user()->can('dashboard'))
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="/dashboard" aria-expanded="false">
                         <span>
@@ -26,6 +27,8 @@
                         <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
+                @endif
+                @can('data.master')
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span class="d-flex">
@@ -86,11 +89,13 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Barang</span>
                 </li>
+                @can('read.barang')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('barang.index') }}" aria-expanded="false">
                         <span>
@@ -99,6 +104,8 @@
                         <span class="hide-menu">Data Barang</span>
                     </a>
                 </li>
+                @endcan
+                @can('create.barang')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('barang.create') }}" aria-expanded="false">
                         <span>
@@ -107,7 +114,9 @@
                         <span class="hide-menu">Tambah Barang</span>
                     </a>
                 </li>
+                @endcan
 
+                @can('maintenance')
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Maintenance</span>
@@ -120,6 +129,8 @@
                         <span class="hide-menu">Data Maintenance</span>
                     </a>
                 </li>
+                @endcan
+                @can('maintenance.lanjut')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('maintenance.lanjutan.index') }}" aria-expanded="false">
                         <span>
@@ -128,6 +139,8 @@
                         <span class="hide-menu">Data Maintenance Lanjutan</span>
                     </a>
                 </li>
+                @endcan
+                @can('maintenance.rusak')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('maintenance.rusak.index') }}" aria-expanded="false">
                         <span>
@@ -136,6 +149,8 @@
                         <span class="hide-menu">Data Barang Rusak</span>
                     </a>
                 </li>
+                @endcan
+                @can('maintenance.diperbaiki')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('maintenance.diperbaiki.index') }}" aria-expanded="false">
                         <span>
@@ -144,11 +159,13 @@
                         <span class="hide-menu">Data Barang Berhasil Perbaikan</span>
                     </a>
                 </li>
+                @endcan
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">User & Roles</span>
                 </li>
+                @can('users')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('users.index') }}" aria-expanded="false">
                         <span>
@@ -165,6 +182,8 @@
                         <span class="hide-menu">Tambah Users</span>
                     </a>
                 </li>
+                @endcan
+                @can('roles')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('roles.index') }}" aria-expanded="false">
                         <span>
@@ -181,6 +200,8 @@
                         <span class="hide-menu">Tambah Roles</span>
                     </a>
                 </li>
+                @endcan
+                @can('permission')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('permissions.index') }}" aria-expanded="false">
                         <span>
@@ -197,6 +218,7 @@
                         <span class="hide-menu">Tambah Permissions</span>
                     </a>
                 </li>
+                @endcan
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

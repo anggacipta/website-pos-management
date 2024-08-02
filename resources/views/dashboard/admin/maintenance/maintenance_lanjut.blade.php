@@ -7,6 +7,15 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4">Maintenance Lanjutan Barang</h5>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ route('maintenance.lanjutan.update', $maintenance->id) }}" method="post">
