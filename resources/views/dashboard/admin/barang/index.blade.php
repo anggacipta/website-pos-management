@@ -5,6 +5,10 @@
     <!--  Header End -->
     <div class="container-fluid">
         <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="card-title mb-4">Data Barang</h4>
+                <a href="{{ route('print.sticker.all') }}" class="btn text-light" style="background-color: darkgreen">Print All Sticker</a>
+            </div>
             <div class="table-responsive">
                 <table id="" class="table table-bordered table-striped">
                     <thead>
@@ -22,6 +26,7 @@
                         <th>Merk Barang</th>
                         <th>Kondisi Barang</th>
                         <th>Keterangan</th>
+                        <th>Print</th>
                         <th>Maintenance</th>
                         <th>Aksi</th>
                     </tr>
@@ -42,6 +47,7 @@
                             <td>{{ $barang->merkBarang->merk_barang }}</td>
                             <td>{{ $barang->kondisiBarang->kondisi_barang }}</td>
                             <td>{{ $barang->keterangan }}</td>
+                            <td><a href="{{ route('print.sticker', $barang->id) }}" class="btn text-light" style="background-color: deepskyblue">Print</a></td>
                             <td>
                                 @if($barang->kondisiBarang->kondisi_barang == 'Maintenance' || $barang->kondisiBarang->kondisi_barang == 'Maintenance Lanjutan')
                                     <span class="btn btn-info">Sedang Maintenance</span>

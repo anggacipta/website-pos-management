@@ -10,6 +10,7 @@ use App\Models\MerkBarang;
 use App\Models\Ruangan;
 use App\Models\SumberPengadaan;
 use App\Models\UnitKerja;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -140,5 +141,19 @@ class BarangController extends Controller
     {
         $count = Barang::where('unit_kerja_id', $unitKerjaId)->count();
         return response()->json(['count' => $count]);
+    }
+
+    public function printSticker($id)
+    {
+        $barang = Barang::findOrFail($id);
+        $pdf = Pdf::loadView('dashboard.admin.barang.print_sticker', compact('barang'));
+        return $pdf->stream('sticker.pdf');
+    }
+
+    public function printStickerAll()
+    {
+        $barangs = Barang::all();
+        $pdf = Pdf::loadView('dashboard.admin.barang.print_sticker_all', compact('barangs'));
+        return $pdf->stream('sticker_all.pdf');
     }
 }

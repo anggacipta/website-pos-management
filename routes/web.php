@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('maintenance-diperbaiki/{id}', [\App\Http\Controllers\Admin\MaintenanceController::class, 'updateMaintenanceDiperbaiki'])->name('maintenance.diperbaiki.update');
     // Get Kode Barang
     Route::get('barang/count/{unitKerjaId}', [\App\Http\Controllers\Admin\BarangController::class, 'countByUnitKerja']);
+    // Print for Barang
+    Route::get('/print-sticker-all', [\App\Http\Controllers\Admin\BarangController::class, 'printStickerAll'])->name('print.sticker.all');
+    Route::get('/print-sticker/{id}', [\App\Http\Controllers\Admin\BarangController::class, 'printSticker'])->name('print.sticker');
 
     // Route Roles
     Route::resource('roles', \App\Http\Controllers\RolePermissionController::class);
