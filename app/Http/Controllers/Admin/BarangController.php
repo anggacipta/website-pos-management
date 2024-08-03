@@ -84,7 +84,7 @@ class BarangController extends Controller
 
         Barang::create($barangData);
 
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan');
+        return redirect()->back()->with('success', 'Barang berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -133,8 +133,22 @@ class BarangController extends Controller
 
     public function destroy($id)
     {
-        Barang::find($id)->delete();
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus');
+        $barang = Barang::find($id);
+
+        if ($barang) {
+            // Delete the file if it exists
+            $filePath = public_path('images/' . $barang->photo);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            // Delete the Barang instance
+            $barang->delete();
+
+            return redirect()->route('barang.index')->with('error', 'Barang berhasil dihapus');
+        }
+
+        return redirect()->route('barang.index')->with('error', 'Barang tidak ditemukan');
     }
 
     public function countByUnitKerja($unitKerjaId)

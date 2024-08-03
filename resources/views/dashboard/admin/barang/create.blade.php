@@ -138,6 +138,26 @@
         </div>
     </div>
 
+    @if(session('success'))
+        <script>
+            Swal.fire({
+                title: "Success!",
+                text: "{{ session('success') }}",
+                icon: "success",
+                showCancelButton: true,
+                confirmButtonText: "Tambah barang lagi!",
+                cancelButtonText: "Kembali ke Tabel Barang"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Do nothing, stay on the same page
+                } else {
+                    window.location.href = "{{ route('barang.index') }}";
+                }
+            });
+        </script>
+    @endif
+
+
     <script>
         $(document).ready(function() {
             $("#barangForm").submit(function(e) {
