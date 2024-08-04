@@ -20,7 +20,7 @@
                 </li>
                 @if(\Illuminate\Support\Facades\Auth::user()->can('dashboard'))
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="/dashboard" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('dashboard.index') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-dashboard"></i>
                         </span>

@@ -7,7 +7,10 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="card-title mb-4">Data Barang</h4>
-                <a href="{{ route('print.sticker.all') }}" class="btn text-light" style="background-color: darkgreen">Print All Sticker</a>
+                <div>
+                    <a href="{{ route('barang.create') }}" class="btn btn-primary">Tambah Barang</a>
+                    <a href="{{ route('print.sticker.all') }}" class="btn text-light" style="background-color: darkgreen">Print All Label</a>
+                </div>
             </div>
             <div class="table-responsive">
                 <table id="" class="table table-bordered table-striped">
@@ -26,7 +29,7 @@
                         <th>Merk Barang</th>
                         <th>Kondisi Barang</th>
                         <th>Keterangan</th>
-                        <th>Print</th>
+                        <th>Print Label</th>
                         <th>Maintenance</th>
                         <th>Aksi</th>
                     </tr>

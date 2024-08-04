@@ -34,7 +34,7 @@
                             <h4 class="card-title mb-0">Data</h4>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 d-flex align-items-stretch">
+                            <div class="col-md-12 d-flex align-items-stretch mb-3">
                                 <div class="card w-100 position-relative overflow-hidden border shadow-none mb-7 mb-lg-0">
                                     <div class="card-body">
                                         <div id="get-perbaiki" style="min-height: 144.533px;"></div>
@@ -48,28 +48,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 d-flex align-items-stretch">
+                            <div class="col-md-12 d-flex align-items-stretch mb-3">
                                 <div class="card w-100 position-relative overflow-hidden border shadow-none mb-7 mb-lg-0">
                                     <div class="card-body">
-                                        <div id="monthly-additions" style="min-height: 144.533px;"></div>
-                                        <div class="d-flex align-items-end justify-content-between mt-7">
-                                            <div>
-                                                <p class="mb-1">Penambahan Barang per Bulan</p>
-                                                <h4 class="mb-0 fw-semibold">{{ $currentMonthBarang }} barang</h4>
-                                            </div>
-                                            <span class="text-success fw-normal">{{ $percentageChangeBarang > 0 ? '+' : '' }}{{ number_format($percentageChangeBarang, 2) }}%</span>
+                                        <div id="barang-by-jenis"></div>
+                                        <div>
+                                            <p class="mb-1">Total Barang</p>
+                                            <h4 class="mb-0 fw-semibold">{{ $totalBarang }} barang</h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 d-flex align-items-stretch">
+                            <div class="col-md-12 d-flex align-items-stretch mb-3">
                                 <div class="card w-100 position-relative overflow-hidden border shadow-none mb-7 mb-lg-0">
                                     <div class="card-body">
                                         <div id="monthly-broken-maintenance" style="min-height: 144.533px;"></div>
                                         <div class="d-flex align-items-end justify-content-between mt-7">
                                             <div>
-                                                <p class="mb-1">Kerusakan Barang per Bulan</p>
-                                                <h4 class="mb-0 fw-semibold">{{ $currentMonthMaintenancesRusak }} barang</h4>
+                                                <p class="mb-1">Barang yang belum di maintenance Bulan ini</p>
+                                                <h4 class="mb-0 fw-semibold">{{ $currentMonthMaintenances }} barang</h4>
                                             </div>
                                             <span class="text-success fw-normal">{{ $percentageChangeMaintenance > 0 ? '+' : '' }}{{ number_format($percentageChangeMaintenance, 2) }}%</span>
                                         </div>
@@ -105,20 +102,21 @@
 
             var options2 = {
                 chart: {
-                    type: 'line',
+                    type: 'bar',
                     height: 350
                 },
                 series: [{
-                    name: 'Penambahan Barang',
-                    data: @json(array_values($monthlyAdditionsBarang))
+                    name: 'Total Barang',
+                    data: @json(array_values($barangByJenis))
                 }],
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories: @json(array_keys($barangByJenis))
                 }
             };
 
-            var chart2 = new ApexCharts(document.querySelector("#monthly-additions"), options2);
+            var chart2 = new ApexCharts(document.querySelector("#barang-by-jenis"), options2);
             chart2.render();
+
 
             var options3 = {
                 chart: {
@@ -126,7 +124,7 @@
                     height: 350
                 },
                 series: [{
-                    name: 'Kerusakan Barang',
+                    name: 'Maintenance Barang',
                     data: @json(array_values($monthlyAdditionsMaintenance))
                 }],
                 xaxis: {

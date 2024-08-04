@@ -15,6 +15,10 @@ class DashboardController extends Controller
         $currentMonth = now()->month;
         $previousMonth = now()->subMonth()->month;
 
+        // Retrieve barang data all
+        $barangs = Barang::all();
+        $totalBarang = $barangs->count();
+
         // Retrieve maintenance data for the current month
         $maintenances = Maintenance::whereMonth('created_at', $currentMonth)->get();
         $total = $maintenances->count();
@@ -28,47 +32,50 @@ class DashboardController extends Controller
         $vendorPercentage = $total ? ($vendorCount / $total) * 100 : 0;
 
         // Calculate monthly additions
-        $monthlyAdditionsBarang = Barang::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-            ->groupBy('month')
-            ->orderBy('month')
+        $barangByJenis = Barang::selectRaw('jenis_barang_id, COUNT(*) as count')
+            ->groupBy('jenis_barang_id')
+            ->orderBy('jenis_barang_id')
             ->get()
-            ->pluck('count', 'month')
+            ->mapWithKeys(function ($item) {
+                return [$item->jenisBarang->jenis_barang => $item->count];
+            })
             ->toArray();
         $monthlyAdditionsMaintenance = Maintenance::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
             ->groupBy('month')
             ->orderBy('month')
             ->whereHas('kondisiBarang', function ($query) {
-                $query->where('kondisi_barang', '=', 'Rusak');
+                $query->where('kondisi_barang', '=', 'Maintenance')
+                    ->orWhere('kondisi_barang', '=', 'Maintenance Lanjutan');
             })
             ->get()
             ->pluck('count', 'month')
             ->toArray();
 
         // Fill in missing months with 0
-        $monthlyAdditionsBarang = array_replace(array_fill(1, 12, 0), $monthlyAdditionsBarang);
+//        $monthlyAdditionsBarang = array_replace(array_fill(1, 12, 0), $monthlyAdditionsBarang);
         $monthlyAdditionsMaintenance = array_replace(array_fill(1, 12, 0), $monthlyAdditionsMaintenance);
 
         // Calculate current and previous month additions
         $currentMonthMaintenancesDiperbaiki = Maintenance::whereMonth('created_at', $currentMonth)->whereHas('kondisiBarang', function ($query) {
             $query->where('kondisi_barang', '=', 'Berhasil Diperbaiki');
         })->count();
-        $currentMonthMaintenancesRusak = Maintenance::whereMonth('created_at', $currentMonth)->whereHas('kondisiBarang', function ($query) {
-            $query->where('kondisi_barang', '=', 'Rusak');
-        })->count();
-        $currentMonthBarang = Barang::whereMonth('created_at', $currentMonth)->count();
+        $currentMonthMaintenances = Maintenance::whereMonth('created_at', $currentMonth)
+            ->whereHas('kondisiBarang', function ($query) {
+                $query->where('kondisi_barang', '=', 'Maintenance')
+                    ->orWhere('kondisi_barang', '=', 'Maintenance Lanjutan');
+            })->count();
 
-        $currentMonthAdditionsBarang = $monthlyAdditionsBarang[$currentMonth] ?? 0;
-        $previousMonthAdditionsBarang = $monthlyAdditionsBarang[$previousMonth] ?? 0;
+//        $currentMonthAdditionsBarang = $monthlyAdditionsBarang[$currentMonth] ?? 0;
+//        $previousMonthAdditionsBarang = $monthlyAdditionsBarang[$previousMonth] ?? 0;
         $currentMonthAdditionsMaintenance = $monthlyAdditionsMaintenance[$currentMonth] ?? 0;
         $previousMonthAdditionsMaintenance = $monthlyAdditionsMaintenance[$previousMonth] ?? 0;
 
         // Calculate percentage change
-        $percentageChangeBarang = $previousMonthAdditionsBarang ? (($currentMonthAdditionsBarang - $previousMonthAdditionsBarang) / $previousMonthAdditionsBarang) * 100 : 0;
+//        $percentageChangeBarang = $previousMonthAdditionsBarang ? (($currentMonthAdditionsBarang - $previousMonthAdditionsBarang) / $previousMonthAdditionsBarang) * 100 : 0;
         $percentageChangeMaintenance = $previousMonthAdditionsMaintenance ? (($currentMonthAdditionsMaintenance - $previousMonthAdditionsMaintenance) / $previousMonthAdditionsMaintenance) * 100 : 0;
 
-        return view('dashboard.admin.index', compact('serverPercentage', 'iprsPercentage', 'vendorPercentage', 'currentMonthBarang',
-            'monthlyAdditionsBarang', 'percentageChangeBarang',
-            'currentMonthMaintenancesDiperbaiki', 'currentMonthMaintenancesRusak', 'percentageChangeMaintenance',
-            'monthlyAdditionsMaintenance'));
+        return view('dashboard.admin.index', compact('serverPercentage', 'iprsPercentage', 'vendorPercentage',
+            'currentMonthMaintenancesDiperbaiki', 'currentMonthMaintenances', 'percentageChangeMaintenance',
+            'monthlyAdditionsMaintenance', 'barangByJenis', 'totalBarang'));
     }
 }
