@@ -25,7 +25,7 @@ class AuthController extends Controller
                 case 'server':
                     return redirect()->intended('/dashboard');
                 case 'user':
-                case 'iprs':
+                 case 'iprs':
                     return redirect()->intended('/barang');
                 default:
                     return redirect()->intended('/home');
