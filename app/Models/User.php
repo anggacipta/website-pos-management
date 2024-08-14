@@ -20,7 +20,6 @@ class User extends Authenticatable
         'username',
         'password',
         'role_id',
-        'unit_kerja_id',
     ];
 
     protected $hidden = [
@@ -36,10 +35,5 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
-    }
-
-    public function unitKerja()
-    {
-        return $this->belongsTo(UnitKerja::class, 'unit_kerja_id');
     }
 }

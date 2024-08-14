@@ -40,7 +40,7 @@
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
-                            <a href="{{ route('jenis-barang.index') }}" class="sidebar-link">
+                            <a href="javascript:void(0)" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                     <i class="ti ti-circle"></i>
                                 </div>
@@ -48,7 +48,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('merk-barang.index') }}" class="sidebar-link">
+                            <a href="javascript:void(0)" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                     <i class="ti ti-circle"></i>
                                 </div>
@@ -56,7 +56,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('kondisi-barang.index') }}" class="sidebar-link">
+                            <a href="javascript:void(0)" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                     <i class="ti ti-circle"></i>
                                 </div>
@@ -64,7 +64,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('sumber-pengadaan.index') }}" class="sidebar-link">
+                            <a href="javascript:void(0)" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                     <i class="ti ti-circle"></i>
                                 </div>
@@ -72,7 +72,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('unit-kerja.index') }}" class="sidebar-link">
+                            <a href="javascript:void(0)" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                     <i class="ti ti-circle"></i>
                                 </div>
@@ -80,7 +80,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{{ route('vendor.index') }}" class="sidebar-link">
+                            <a href="javascript:void(0)" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                     <i class="ti ti-circle"></i>
                                 </div>
@@ -93,70 +93,25 @@
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Barang</span>
+                    <span class="hide-menu">Warga</span>
                 </li>
                 @can('read.barang')
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('barang.index') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('warga.index') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-cards"></i>
                         </span>
-                        <span class="hide-menu">Data Barang</span>
+                        <span class="hide-menu">Data Warga</span>
                     </a>
                 </li>
                 @endcan
                 @can('create.barang')
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('barang.create') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('warga.create') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-file-description"></i>
                         </span>
-                        <span class="hide-menu">Tambah Barang</span>
-                    </a>
-                </li>
-                @endcan
-
-                @can('maintenance')
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Maintenance</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('maintenance.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-cards"></i>
-                        </span>
-                        <span class="hide-menu">Data Maintenance</span>
-                    </a>
-                </li>
-                @endcan
-                @can('maintenance.lanjut')
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('maintenance.lanjutan.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-cards"></i>
-                        </span>
-                        <span class="hide-menu">Data Maintenance Lanjutan</span>
-                    </a>
-                </li>
-                @endcan
-                @can('maintenance.rusak')
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('maintenance.rusak.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-cards"></i>
-                        </span>
-                        <span class="hide-menu">Data Barang Rusak</span>
-                    </a>
-                </li>
-                @endcan
-                @can('maintenance.diperbaiki')
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('maintenance.diperbaiki.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-cards"></i>
-                        </span>
-                        <span class="hide-menu">Data Barang Berhasil Perbaikan</span>
+                        <span class="hide-menu">Tambah Warga</span>
                     </a>
                 </li>
                 @endcan
@@ -240,3 +195,4 @@
     </div>
     <!-- End Sidebar scroll-->
 </aside>
+

@@ -22,11 +22,9 @@ class AuthController extends Controller
             // Check user role and redirect accordingly
             $roleName = auth()->user()->role->name;
             switch ($roleName) {
-                case 'server':
-                    return redirect()->intended('/dashboard');
+                case 'admin':
                 case 'user':
-                 case 'iprs':
-                    return redirect()->intended('/barang');
+                    return redirect()->intended('/dashboard');
                 default:
                     return redirect()->intended('/home');
             }

@@ -17,29 +17,16 @@ class DatabaseSeeder extends Seeder
     {
         // Create roles
         Role::create(['name' => 'user']);
-        Role::create(['name' => 'iprs']);
-        Role::create(['name' => 'server']);
+        Role::create(['name' => 'admin']);
 
         $this->call([
-            KondisiBarang::class,
-            UnitKerja::class,
-            JenisBarang::class,
-            MerkBarang::class,
-            SumberPengadaan::class,
-            VendorSeeder::class,
             PermissionSeeder::class,
-            RolePermissionSeeder::class
+            RolePermissionSeeder::class,
         ]);
 
         // Retrieve roles
-        $serverRole = Role::where('name', 'server')->first();
-        $iprsRole = Role::where('name', 'iprs')->first();
+        $adminRole = Role::where('name', 'admin')->first();
         $userRole = Role::where('name', 'user')->first();
-
-        // Retrieve unit_kerja records
-        $serverUnitKerja = \App\Models\UnitKerja::where('unit_kerja', 'Logistik')->first();
-        $iprsUnitKerja = \App\Models\UnitKerja::where('unit_kerja', 'IPSRS')->first();
-        $driverUnitKerja = \App\Models\UnitKerja::where('unit_kerja', 'Driver')->first();
 
         // Create users and assign roles
         $adminUser = User::create([
@@ -47,27 +34,15 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'password' => bcrypt('admin'),
             'email' => 'admin@gmail.com',
-            'unit_kerja_id' => $iprsUnitKerja->id,
-            'role_id' => $iprsRole->id,
+            'role_id' => $adminRole->id,
         ]);
-        $adminUser->assignRole($iprsRole->name);
-
-        $serverUser = User::create([
-            'name' => 'Server',
-            'username' => 'server',
-            'password' => bcrypt('server'),
-            'email' => 'server@gmail.com',
-            'unit_kerja_id' => $serverUnitKerja->id,
-            'role_id' => $serverRole->id,
-        ]);
-        $serverUser->assignRole($serverRole->name);
+        $adminUser->assignRole($adminRole->name);
 
         $userUser = User::create([
             'name' => 'User',
             'username' => 'user',
             'password' => bcrypt('user'),
             'email' => 'coba@gmail.com',
-            'unit_kerja_id' => $driverUnitKerja->id,
             'role_id' => $userRole->id,
         ]);
         $userUser->assignRole($userRole->name);
