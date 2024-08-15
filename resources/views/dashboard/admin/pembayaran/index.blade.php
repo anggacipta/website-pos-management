@@ -39,7 +39,7 @@
             </form>
             <div class="table-responsive">
                 <h3>Data Pembayaran</h3>
-                <table class="table">
+                <table class="table table-striped table-hover table-bordered">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -65,11 +65,11 @@
                                         @if($payment)
                                             @if($payment->status == 1)
                                                 <span>
-                                                    <i class="ti ti-check fs-4"></i>
+                                                    <i class="ti ti-check fs-4 text-success"></i>
                                                 </span>
                                             @else
                                                 <span>
-                                                    <i class="ti ti-ban fs-4"></i>
+                                                    <i class="ti ti-ban fs-4 text-danger"></i>
                                                 </span>
                                             @endif
                                         @else
@@ -87,11 +87,11 @@
                                     @if($payment)
                                         @if($payment->status == 1)
                                             <span>
-                                                    <i class="ti ti-check fs-4"></i>
+                                                    <i class="ti ti-check fs-4 text-success"></i>
                                                 </span>
                                         @else
                                             <span>
-                                                    <i class="ti ti-ban fs-4"></i>
+                                                    <i class="ti ti-ban fs-4 text-danger"></i>
                                                 </span>
                                         @endif
                                     @else
