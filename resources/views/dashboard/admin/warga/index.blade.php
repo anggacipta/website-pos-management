@@ -26,11 +26,7 @@
                         <td>{{ $warga->nama }}</td>
                         <td>{{ $warga->tempat_lahir }}</td>
                         <td>{{ $warga->tanggal_lahir }}</td>
-                        @if($warga->jenis_kelamin == 'L')
-                            <td>Laki-laki</td>
-                        @else
-                            <td>Perempuan</td>
-                        @endif
+                        <td>{{ $warga->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
                         <td>
                             <a href="{{ route('warga.edit', $warga->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('warga.destroy', $warga->id) }}" method="post" class="d-inline">
@@ -38,10 +34,19 @@
                                 @method('delete')
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
-                            <form action="{{ route('warga.send-reminder', $warga->id) }}" method="post" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-info">Send Reminder</button>
-                            </form>
+                            @php
+                                $currentMonth = date('n');
+                                $currentYear = date('Y');
+                                $pembayaran = $warga->pembayaran->where('bulan', $currentMonth)->where('tahun', $currentYear)->first();
+                            @endphp
+                            @if($pembayaran && $pembayaran->status == 1)
+                                <!-- Do nothing or show a message indicating payment is complete -->
+                            @else
+                                <form action="{{ route('warga.send-reminder', $warga->id) }}" method="post" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-info">Ingatkan pembayaran bulan ini</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

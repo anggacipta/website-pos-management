@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Pembayaran;
 use App\Models\Warga;
 use App\Service\FonnteService;
 use Carbon\Carbon;
@@ -80,10 +82,29 @@ class WargaController extends Controller
 
     public function sendReminder($id)
     {
-        $warga = Warga::find($id);
-        $message = "Hello $warga->nama, this is a reminder message.";
-        $this->fonnteService->sendMessage($warga->no_hp, $message);
+        $pembayaran = Pembayaran::where('warga_id', $id)
+            ->where('bulan', date('n'))
+            ->where('tahun', date('Y'))
+            ->first();
 
-        return redirect()->route('warga.index')->with('success', 'Reminder message sent successfully.');
-    }
+        if ($pembayaran) {
+            return redirect()->route('warga.index')->with('error', 'Reminder message already sent.');
+        } else {
+            // Create a new payment record
+            Pembayaran::create([
+                'warga_id' => $id,
+                'bulan' => date('n'),
+                'tahun' => date('Y'),
+                'jumlah' => 10000,
+                'status' => 0,
+            ]);
+
+            $warga = Warga::find($id);
+            $message = "Hello $warga->nama, jangan lupa bayar iuran bulanan sebesar of Rp. $pembayaran->jumlah.";
+            $this->fonnteService->sendMessage($warga->no_hp, $message);
+
+            return redirect()->route('warga.index')->with('success', 'Reminder message sent successfully.');
+        } // end if
+    } // end method
+
 }

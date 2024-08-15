@@ -17,4 +17,9 @@ class Warga extends Model
         'jenis_kelamin',
         'no_hp',
     ];
+
+    public function pembayaran()
+    {
+        return $this->hasMany(Pembayaran::class, 'warga_id');
+    }
 }

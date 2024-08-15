@@ -28,68 +28,6 @@
                     </a>
                 </li>
                 @endif
-                @can('data.master')
-                <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
-                        <span class="d-flex">
-                            <i class="ti ti-layout-dashboard"></i>
-                        </span>
-                        <span class="hide-menu">
-                            Data Master
-                        </span>
-                    </a>
-                    <ul aria-expanded="false" class="collapse first-level">
-                        <li class="sidebar-item">
-                            <a href="javascript:void(0)" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-circle"></i>
-                                </div>
-                                <span class="hide-menu">Data Jenis Barang</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="javascript:void(0)" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-circle"></i>
-                                </div>
-                                <span class="hide-menu">Data Merk Barang</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="javascript:void(0)" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-circle"></i>
-                                </div>
-                                <span class="hide-menu">Data Kondisi Barang</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="javascript:void(0)" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-circle"></i>
-                                </div>
-                                <span class="hide-menu">Data Sumber Pengadaan</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="javascript:void(0)" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-circle"></i>
-                                </div>
-                                <span class="hide-menu">Data Unit Kerja</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="javascript:void(0)" class="sidebar-link">
-                                <div class="round-16 d-flex align-items-center justify-content-center">
-                                    <i class="ti ti-circle"></i>
-                                </div>
-                                <span class="hide-menu">Data Vendor</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                @endcan
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -115,6 +53,27 @@
                     </a>
                 </li>
                 @endcan
+
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Pembayaran</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('pembayaran.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-moneybag"></i>
+                        </span>
+                        <span class="hide-menu">Data Pembayaran</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('pembayaran.create') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-coin-monero"></i>
+                        </span>
+                        <span class="hide-menu">Tambah Pembayaran</span>
+                    </a>
+                </li>
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>

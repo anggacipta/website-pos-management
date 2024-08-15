@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Support\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -18,8 +18,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        $unitKerjas = UnitKerja::all();
-        return view('dashboard.admin.users.create', compact('roles', 'unitKerjas'));
+        return view('dashboard.admin.users.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -50,8 +49,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $unitKerjas = UnitKerja::all();
-        return view('dashboard.admin.users.edit', compact('user', 'unitKerjas'));
+        return view('dashboard.admin.users.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)

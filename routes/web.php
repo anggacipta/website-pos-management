@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 
 // Route for server
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
 
     // Route Warga
-    Route::resource('warga', \App\Http\Controllers\WargaController::class);
-    Route::post('warga/{id}/send-reminder', [\App\Http\Controllers\WargaController::class, 'sendReminder'])->name('warga.send-reminder');
+    Route::resource('warga', \App\Http\Controllers\Admin\WargaController::class);
+    Route::post('warga/{id}/send-reminder', [\App\Http\Controllers\Admin\WargaController::class, 'sendReminder'])->name('warga.send-reminder');
+
+    // Route Pembayaran
+    Route::resource('pembayaran', \App\Http\Controllers\Admin\PembayaranController::class);
+
     // Route Roles
     Route::resource('roles', \App\Http\Controllers\RolePermissionController::class);
 
