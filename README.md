@@ -1,6 +1,8 @@
-# Website Inventaris RSDH
+# Website RT RW
 
-Website Inventaris untuk Rumah Sakit Dian Husada
+Website RT RW adalah website untuk mendata warga yang tinggal di suatu RT RW. Serta mendukung fitur 
+untuk mendata pembayaran iuran bulanan warga. 
+Website ini dibuat menggunakan Laravel 9.
 
 ## Persyaratan
 
