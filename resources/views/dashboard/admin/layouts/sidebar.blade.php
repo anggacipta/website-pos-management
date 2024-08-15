@@ -75,64 +75,64 @@
                     </a>
                 </li>
 
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">User & Roles</span>
-                </li>
-                @can('users')
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('users.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-users"></i>
-                        </span>
-                        <span class="hide-menu">Data Users</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('users.create') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-user"></i>
-                        </span>
-                        <span class="hide-menu">Tambah Users</span>
-                    </a>
-                </li>
-                @endcan
-                @can('roles')
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('roles.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-user-circle"></i>
-                        </span>
-                        <span class="hide-menu">Data Roles</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('roles.create') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-user-circle"></i>
-                        </span>
-                        <span class="hide-menu">Tambah Roles</span>
-                    </a>
-                </li>
-                @endcan
-                @can('permission')
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('permissions.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-license"></i>
-                        </span>
-                        <span class="hide-menu">Data Permissions</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('permissions.create') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-license"></i>
-                        </span>
-                        <span class="hide-menu">Tambah Permissions</span>
-                    </a>
-                </li>
-                @endcan
+{{--                <li class="nav-small-cap">--}}
+{{--                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>--}}
+{{--                    <span class="hide-menu">User & Roles</span>--}}
+{{--                </li>--}}
+{{--                @can('users')--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('users.index') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-users"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Data Users</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('users.create') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-user"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Tambah Users</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                @endcan--}}
+{{--                @can('roles')--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('roles.index') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-user-circle"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Data Roles</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('roles.create') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-user-circle"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Tambah Roles</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                @endcan--}}
+{{--                @can('permission')--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('permissions.index') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-license"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Data Permissions</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('permissions.create') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-license"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Tambah Permissions</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                @endcan--}}
             </ul>
         </nav>
         <!-- End Sidebar navigation -->
