@@ -38,7 +38,15 @@
                 </div>
             </form>
             <div class="table-responsive">
-                <h3>Data Pembayaran</h3>
+                <div class="d-flex justify-content-between">
+                    <h3>Data Pembayaran</h3>
+                    <form action="{{ route('pembayaran.index') }}" method="GET">
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" name="search" placeholder="Search" value="{{ request('search') }}">
+                            <button class="btn btn-outline-primary" type="submit" id="button-addon2">Search</button>
+                        </div>
+                    </form>
+                </div>
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                     <tr>
@@ -105,11 +113,15 @@
                     @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center">
+                    {{ $wargas->links('pagination::bootstrap-4') }}
+                </div>
                 <h3>Legend</h3>
                 <ul>
-                    <li><i class="ti ti-check fs-4"></i> Paid</li>
-                    <li><i class="ti ti-ban fs-4"></i> Not Paid</li>
-                    <li><i class="ti ti-x fs-4"></i> No Data</li>
+                    <li><i class="ti ti-check fs-4"></i>Sudah Bayar</li>
+                    <li><i class="ti ti-ban fs-4"></i>Belum Bayar</li>
+                    <li><i class="ti ti-x fs-4"></i>Data Tidak Ada</li>
+                </ul>
             </div>
         </div>
     </div>

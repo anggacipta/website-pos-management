@@ -22,6 +22,7 @@ class PembayaranController extends Controller
         $year = $request->input('year', date('Y'));
         $month = $request->input('month');
         $status = $request->input('status');
+        $search = $request->input('search');
 
         $query = Warga::with(['pembayaran' => function($query) use ($year, $month, $status) {
             $query->where('tahun', $year);
@@ -33,11 +34,13 @@ class PembayaranController extends Controller
             }
         }]);
 
-        $wargas = $query->get();
+        if ($search) {
+            $query->where('nama', 'like', "%$search%");
+        }
 
-        $pembayaran = Pembayaran::all();
+        $wargas = $query->paginate(10);
 
-        return view('dashboard.admin.pembayaran.index', compact('wargas', 'year', 'month', 'status', 'pembayaran'));
+        return view('dashboard.admin.pembayaran.index', compact('wargas', 'year', 'month', 'status'));
     }
 
     public function create()

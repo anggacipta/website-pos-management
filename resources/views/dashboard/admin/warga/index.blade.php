@@ -42,10 +42,7 @@
                             @if($pembayaran && $pembayaran->status == 1)
                                 <!-- Do nothing or show a message indicating payment is complete -->
                             @else
-                                <form action="{{ route('warga.send-reminder', $warga->id) }}" method="post" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-info">Ingatkan pembayaran bulan ini</button>
-                                </form>
+                                <a href="{{ route('warga.create-reminder', $warga->id) }}" class="btn btn-info">Ingatkan pembayaran bulan ini</a>
                             @endif
                         </td>
                     </tr>

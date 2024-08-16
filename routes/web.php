@@ -8,6 +8,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route Warga
     Route::resource('warga', \App\Http\Controllers\Admin\WargaController::class);
+    Route::get('warga/{id}/send-reminder', [\App\Http\Controllers\Admin\WargaController::class, 'createReminder'])->name('warga.create-reminder');
     Route::post('warga/{id}/send-reminder', [\App\Http\Controllers\Admin\WargaController::class, 'sendReminder'])->name('warga.send-reminder');
 
     // Route Pembayaran

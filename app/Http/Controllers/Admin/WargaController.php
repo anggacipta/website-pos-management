@@ -80,7 +80,13 @@ class WargaController extends Controller
         return redirect()->route('warga.index')->with('success', 'Warga deleted successfully.');
     }
 
-    public function sendReminder($id)
+    public function createReminder($id)
+    {
+        $warga = Warga::find($id);
+        return view('dashboard.admin.warga.create_reminder', compact('warga'));
+    }
+
+    public function sendReminder(Request $request, $id)
     {
         $pembayaran = Pembayaran::where('warga_id', $id)
             ->where('bulan', date('n'))
@@ -88,14 +94,18 @@ class WargaController extends Controller
             ->first();
 
         if ($pembayaran) {
-            return redirect()->route('warga.index')->with('error', 'Reminder message already sent.');
+            $warga = Warga::find($id);
+            $message = "Hello $warga->nama, jangan lupa bayar iuran bulanan sebesar of Rp. $request->jumlah.";
+            $this->fonnteService->sendMessage($warga->no_hp, $message);
+
+            return redirect()->route('warga.index')->with('success', 'Pesan reminder berhasil dikirimkan.');
         } else {
             // Create a new payment record
             Pembayaran::create([
                 'warga_id' => $id,
                 'bulan' => date('n'),
                 'tahun' => date('Y'),
-                'jumlah' => 10000,
+                'jumlah' => $request->jumlah,
                 'status' => 0,
             ]);
 
@@ -103,7 +113,7 @@ class WargaController extends Controller
             $message = "Hello $warga->nama, jangan lupa bayar iuran bulanan sebesar of Rp. $pembayaran->jumlah.";
             $this->fonnteService->sendMessage($warga->no_hp, $message);
 
-            return redirect()->route('warga.index')->with('success', 'Reminder message sent successfully.');
+            return redirect()->route('warga.index')->with('success', 'Pesan reminder berhasil dikirimkan');
         } // end if
     } // end method
 
