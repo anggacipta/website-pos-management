@@ -21,4 +21,9 @@ class Pembayaran extends Model
     {
         return $this->belongsTo(Warga::class, 'warga_id');
     }
+
+    public function pemasukan()
+    {
+        return $this->hasOne(Pemasukan::class, 'pembayaran_id');
+    }
 }

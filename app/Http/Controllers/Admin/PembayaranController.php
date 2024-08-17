@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pemasukan;
 use App\Models\Pembayaran;
 use App\Models\Warga;
 use App\Service\FonnteService;
@@ -49,6 +50,8 @@ class PembayaranController extends Controller
         return view('dashboard.admin.pembayaran.create', compact('wargas'));
     }
 
+    // app/Http/Controllers/Admin/PembayaranController.php
+
     public function store(Request $request)
     {
         $request->validate([
@@ -66,19 +69,44 @@ class PembayaranController extends Controller
             ->first();
 
         if ($pembayaran) {
-            // Update existing payment
-            $pembayaran->update($request->all());
+            $pemasukan = Pemasukan::where('pembayaran_id', $pembayaran->id)
+                ->first();
+
+            if ($pemasukan) {
+                // Update existing payment
+                $pembayaran->update($request->all());
+                // Redirect to the index page
+                return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil diperbarui.')
+                    ->with('warning', 'Pemasukan ini sudah tercatat.');
+            } else {
+                // Update existing payment
+                $pembayaran->update($request->all());
+                // Make new pemasukan
+                Pemasukan::create([
+                    'pembayaran_id' => $pembayaran->id,
+                    'jumlah' => $request->jumlah,
+                ]);
+                // Send notification to warga
+                $warga = Warga::find($request->warga_id);
+                $message = "Pembayaran bulan $request->bulan tahun $request->tahun sebesar Rp. $request->jumlah berhasil dibayarkan.";
+                $this->fonnteService->sendMessage($warga->no_hp, $message);
+                // Redirect to the index page
+                return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil diperbarui.');
+            }
         } else {
             // Create new payment
             $pembayaran = Pembayaran::create($request->all());
+            Pemasukan::create([
+                'pembayaran_id' => $pembayaran->id,
+                'jumlah' => $request->jumlah,
+            ]);
+            // Send notification to warga
+            $warga = Warga::find($request->warga_id);
+            $message = "Pembayaran bulan $request->bulan tahun $request->tahun sebesar Rp. $request->jumlah berhasil dibayarkan.";
+            $this->fonnteService->sendMessage($warga->no_hp, $message);
+
+            return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil dibayarkan.');
         }
-
-        // Send notification to warga
-        $warga = Warga::find($request->warga_id);
-        $message = "Pembayaran bulan $request->bulan tahun $request->tahun sebesar Rp. $request->jumlah berhasil dibayarkan.";
-        $this->fonnteService->sendMessage($warga->no_hp, $message);
-
-        return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil dibayarkan.');
     }
 
 }

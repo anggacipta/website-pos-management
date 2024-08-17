@@ -14,6 +14,9 @@ Route::middleware(['auth'])->group(function () {
     // Route Pembayaran
     Route::resource('pembayaran', \App\Http\Controllers\Admin\PembayaranController::class);
 
+    // Route Pemasukan
+    Route::get('pemasukan', [\App\Http\Controllers\Admin\PemasukanController::class, 'index'])->name('pemasukan.index');
+
     // Route Roles
     Route::resource('roles', \App\Http\Controllers\RolePermissionController::class);
 

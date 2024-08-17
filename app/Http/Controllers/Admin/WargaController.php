@@ -101,7 +101,7 @@ class WargaController extends Controller
             return redirect()->route('warga.index')->with('success', 'Pesan reminder berhasil dikirimkan.');
         } else {
             // Create a new payment record
-            Pembayaran::create([
+            $pembayaran = Pembayaran::create([
                 'warga_id' => $id,
                 'bulan' => date('n'),
                 'tahun' => date('Y'),
