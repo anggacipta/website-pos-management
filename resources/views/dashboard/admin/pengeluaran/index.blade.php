@@ -1,6 +1,6 @@
-<!-- resources/views/dashboard/admin/pemasukan/index.blade.php -->
+<!-- resources/views/dashboard/admin/pengeluaran/index.blade.php -->
 @extends('dashboard.admin.layouts.main')
-@section('title', 'Data Pemasukan')
+@section('title', 'Data Pengeluaran')
 @section('content')
     <!--  Header Start -->
     @include('dashboard.admin.layouts.navbar')
@@ -9,34 +9,34 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-6 col-md-12">
-                    <div class="card bg-outline-info border border-3 border-info shadow-none mb-4">
+                    <div class="card bg-outline-success border border-3 border-success shadow-none mb-4">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-4">
                                 <span>
-                                    <i class="ti ti-coin-monero text-info" style="font-size: 5em; text-shadow: 2px 2px 2px grey;"></i>
+                                    <i class="ti ti-coin-monero text-success" style="font-size: 5em; text-shadow: 2px 2px 2px grey;"></i>
                                 </span>
                                 </div>
                                 <div class="col-8">
-                                    <h5 class="text-info">Total Pemasukan Bulan Ini</h5>
-                                    <h2 class="text-info">{{ 'Rp' . number_format($totalCurrentMonth, 2, ',', '.') }}</h2>
+                                    <h5 class="text-success">Total Dana</h5>
+                                    <h2 class="text-success">{{ 'Rp' . number_format($totalIncome, 2, ',', '.') }}</h2>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-6 col-md-12">
-                    <div class="card bg-outline-primary border border-3 border-primary shadow-none mb-4">
+                    <div class="card bg-outline-primary border border-3 border-danger shadow-none mb-4">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-4">
                                 <span>
-                                    <i class="ti ti-moneybag text-primary" style="font-size: 5em; text-shadow: 2px 2px 2px lightgrey;"></i>
+                                    <i class="ti ti-moneybag text-danger" style="font-size: 5em; text-shadow: 2px 2px 2px lightgrey;"></i>
                                 </span>
                                 </div>
                                 <div class="col-8">
-                                    <h5 class="text-primary">Total Pemasukan Bulan Lalu</h5>
-                                    <h2 class="text-primary">{{ 'Rp' . number_format($totalLastMonth, 2, ',', '.') }}</h2>
+                                    <h5 class="text-danger">Total Pengeluaran</h5>
+                                    <h2 class="text-danger">{{ 'Rp' . number_format($totalPengeluaran, 2, ',', '.') }}</h2>
                                 </div>
                             </div>
                         </div>
@@ -48,12 +48,18 @@
                             <div class="row align-items-center">
                                 <div class="col-2">
                                 <span>
-                                    <i class="ti ti-pig-money text-warning" style="font-size: 5em; text-shadow: 2px 2px 2px lightgrey;"></i>
+                                    <i class="ti ti-moneybag text-warning" style="font-size: 5em; text-shadow: 2px 2px 2px lightgrey;"></i>
                                 </span>
                                 </div>
                                 <div class="col-10">
-                                    <h5 class="text-warning">Total Pemasukan</h5>
-                                    <h2 class="text-warning">{{ 'Rp' . number_format($totalIncome, 2, ',', '.') }}</h2>
+                                    <h5 class="text-warning">Sisa Dana</h5>
+                                    <h2 class="text-warning">
+                                        @if ($totalSisa < 0)
+                                            {{ '-Rp' . number_format(abs($totalSisa), 2, ',', '.') }}
+                                        @else
+                                            {{ 'Rp' . number_format($totalSisa, 2, ',', '.') }}
+                                        @endif
+                                    </h2>
                                 </div>
                             </div>
                         </div>
@@ -65,32 +71,24 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama Warga</th>
-                    <th>Jumlah Pembayaran</th>
-                    <th>Tanggal Pembayaran</th>
-                    <th>Bulan</th>
-                    <th>Tahun</th>
+                    <th>Keterangan</th>
+                    <th>Jumlah Pengeluaran</th>
+                    <th>Tanggal Pengeluaran</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($pemasukans as $pemasukan)
+                @foreach ($pengeluarans as $pengeluaran)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $pemasukan->pembayaran->warga->nama }}</td>
-                        <td>{{ 'Rp' . number_format($pemasukan->pembayaran->jumlah, 2, ',', '.') }}</td>
-                        @if($pemasukan->updated_at == '')
-                            <td>{{ $pemasukan->updated_at }}</td>
-                        @else
-                            <td>{{ $pemasukan->created_at }}</td>
-                        @endif
-                        <td>{{ \App\Helpers\MonthHelper::getMonthName($pemasukan->pembayaran->bulan) }}</td>
-                        <td>{{ $pemasukan->pembayaran->tahun }}</td>
+                        <td>{{ $pengeluaran->keterangan }}</td>
+                        <td>{{ 'Rp' . number_format($pengeluaran->jumlah, 2, ',', '.') }}</td>
+                        <td>{{ $pengeluaran->created_at }}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
             <div class="d-flex justify-content-center">
-                {{ $pemasukans->links('pagination::bootstrap-4') }}
+                {{ $pengeluarans->links('pagination::bootstrap-4') }}
             </div>
         </div>
         @include('dashboard.admin.layouts.footer')

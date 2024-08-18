@@ -14,6 +14,11 @@ Route::middleware(['auth'])->group(function () {
     // Route Pembayaran
     Route::resource('pembayaran', \App\Http\Controllers\Admin\PembayaranController::class);
 
+    // Route Pengeluaran
+    Route::get('pengeluaran', [\App\Http\Controllers\Admin\PengeluaranController::class, 'index'])->name('pengeluaran.index');
+    Route::get('pengeluaran/create', [\App\Http\Controllers\Admin\PengeluaranController::class, 'create'])->name('pengeluaran.create');
+    Route::post('pengeluaran/store', [\App\Http\Controllers\Admin\PengeluaranController::class, 'store'])->name('pengeluaran.store');
+
     // Route Pemasukan
     Route::get('pemasukan', [\App\Http\Controllers\Admin\PemasukanController::class, 'index'])->name('pemasukan.index');
 
