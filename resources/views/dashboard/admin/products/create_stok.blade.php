@@ -1,5 +1,5 @@
 @extends('dashboard.admin.layouts.main')
-@section('title', 'Ingatkan Membayar')
+@section('title', 'Tambah Stok')
 @section('content')
     <!--  Header Start -->
     @include('dashboard.admin.layouts.navbar')
@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">Ingatkan Pembayaran</h5>
+                <h5 class="card-title fw-semibold mb-4">Jumlah Stok Produk</h5>
                 <div class="card">
                     <div class="card-body">
                         @if ($errors->any())
@@ -19,21 +19,20 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ route('warga.send-reminder', $warga->id) }}" method="post">
+                        <form id="barangForm" action="{{ route('products.update-stok-tambah', $product->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
+                            @method('put')
                             <div class="mb-3">
-                                <label for="jumlah" class="form-label">Jumlah:</label>
-                                <input type="number" name="jumlah" class="form-control" id="jumlah" required>
-                                @error('jumlah')
-                                <div class="error">{{ $message }}</div>
-                                @enderror
+                                <label for="stok" class="form-label">Tambah Stok Produk</label>
+                                <input type="number" name="stok" class="form-control" id="stok"
+                                       aria-describedby="emailHelp">
                             </div>
-                            <input type="hidden" name="status" value="0">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
+            @include('dashboard.admin.layouts.footer')
         </div>
     </div>
 @endsection

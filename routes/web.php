@@ -6,11 +6,24 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
 
-    // Route Warga
-    Route::resource('warga', \App\Http\Controllers\Admin\WargaController::class);
-    Route::get('warga/{id}/send-reminder', [\App\Http\Controllers\Admin\WargaController::class, 'createReminder'])->name('warga.create-reminder');
-    Route::post('warga/{id}/send-reminder', [\App\Http\Controllers\Admin\WargaController::class, 'sendReminder'])->name('warga.send-reminder');
+    // Route Category
+    Route::resource('kategori', \App\Http\Controllers\Admin\CategoryController::class);
 
+    // Route Product
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+    Route::get('tambah-stok/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'tambahStok'])->name('products.tambah-stok');
+    Route::get('kurang-stok/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'kurangStok'])->name('products.kurang-stok');
+    Route::put('update-stok-tambah/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'updateStokTambah'])->name('products.update-stok-tambah');
+    Route::put('update-stok-kurang/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'updateStokKurang'])->name('products.update-stok-kurang');
+
+    // Route POS
+    Route::get('/pos', [\App\Http\Controllers\Admin\POSController::class, 'index'])->name('pos.index');
+    Route::post('/pos/add-to-cart/{id}', [\App\Http\Controllers\Admin\POSController::class, 'addToCart'])->name('pos.addToCart');
+    Route::post('/pos/increase-cart-item/{id}', [\App\Http\Controllers\Admin\POSController::class, 'increaseCartItem'])->name('pos.increaseCartItem');
+    Route::post('/pos/decrease-cart-item/{id}', [\App\Http\Controllers\Admin\POSController::class, 'decreaseCartItem'])->name('pos.decreaseCartItem');
+    Route::get('/pos/search', [\App\Http\Controllers\Admin\POSController::class, 'search'])->name('pos.search');
+    Route::post('/pos/process-payment', [\App\Http\Controllers\Admin\POSController::class, 'processPayment'])->name('pos.processPayment');
+    Route::get('/pos/invoice/{id}', [\App\Http\Controllers\Admin\POSController::class, 'showInvoice'])->name('pos.showInvoice');
     // Route Pembayaran
     Route::resource('pembayaran', \App\Http\Controllers\Admin\PembayaranController::class);
 

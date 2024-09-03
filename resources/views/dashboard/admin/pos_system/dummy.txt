@@ -1,0 +1,79 @@
+// Show Invoice Modal
+        function showInvoiceModal(pembayaran, pembayaranItems) {
+            $('#invoice-total-harga').text('Rp' + pembayaran.total_harga);
+            $('#invoice-diskon').text(pembayaran.diskon + '%');
+            $('#invoice-pajak').text(pembayaran.pajak + '%');
+            $('#invoice-total-bayar').text('Rp' + pembayaran.total_harga);
+
+            var itemsHtml = '';
+            pembayaranItems.forEach(function(item) {
+                itemsHtml += '<tr>' +
+                    '<td>' + item.product.nama_produk + '</td>' +
+                    '<td>' + item.jumlah + '</td>' +
+                    '<td>Rp' + item.harga + '</td>' +
+                    '</tr>';
+            });
+            $('#invoice-items').html(itemsHtml);
+
+            $('#invoice-modal').modal('show');
+        }
+
+        // Check if showInvoice flag is set
+                @if(session('showInvoice'))
+                var pembayaran = @json(session('pembayaran'));
+                var pembayaranItems = @json(session('pembayaranItems'));
+                showInvoiceModal(pembayaran, pembayaranItems);
+                @endif
+
+                attachEventHandlers();
+
+                <!-- Invoice Modal -->
+                <div class="modal fade" id="invoice-modal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true" style="display: none">
+                    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="invoiceModalLabel">Invoice</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h2>Invoice</h2>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>Total Harga</td>
+                                        <td id="invoice-total-harga"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Diskon</td>
+                                        <td id="invoice-diskon"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pajak</td>
+                                        <td id="invoice-pajak"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total yang harus dibayar</td>
+                                        <td id="invoice-total-bayar"></td>
+                                    </tr>
+                                </table>
+                                <h3>Items</h3>
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Nama Produk</th>
+                                        <th>Jumlah</th>
+                                        <th>Harga</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="invoice-items">
+                                    <!-- Items will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="window.print()">Print</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{--@dd(session()->all())--}}

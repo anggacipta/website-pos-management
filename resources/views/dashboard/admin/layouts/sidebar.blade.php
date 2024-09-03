@@ -31,78 +31,86 @@
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Warga</span>
+                    <span class="hide-menu">Produk</span>
                 </li>
-                @can('read.barang')
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('warga.index') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('kategori.index') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-cards"></i>
                         </span>
-                        <span class="hide-menu">Data Warga</span>
+                        <span class="hide-menu">Data Kategori</span>
+                    </a>
+                </li>
+                @can('read.barang')
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('products.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-cards"></i>
+                        </span>
+                        <span class="hide-menu">Data Produk</span>
                     </a>
                 </li>
                 @endcan
                 @can('create.barang')
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('warga.create') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('products.create') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-file-description"></i>
                         </span>
-                        <span class="hide-menu">Tambah Warga</span>
+                        <span class="hide-menu">Tambah Produk</span>
                     </a>
                 </li>
                 @endcan
 
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Pembayaran</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('pembayaran.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-moneybag"></i>
-                        </span>
-                        <span class="hide-menu">Data Pembayaran</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('pembayaran.create') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-coin-monero"></i>
-                        </span>
-                        <span class="hide-menu">Tambah Pembayaran</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('pemasukan.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-coin-euro"></i>
-                        </span>
-                        <span class="hide-menu">Data Pemasukan</span>
-                    </a>
-                </li>
+{{--                <li class="nav-small-cap">--}}
+{{--                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>--}}
+{{--                    <span class="hide-menu">Pembayaran</span>--}}
+{{--                </li>--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('pembayaran.index') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-moneybag"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Data Pembayaran</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('pembayaran.create') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-coin-monero"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Tambah Pembayaran</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('pemasukan.index') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-coin-euro"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Data Pemasukan</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
 
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Pengeluaran</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('pengeluaran.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-moneybag"></i>
-                        </span>
-                        <span class="hide-menu">Data Pengeluaran</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('pengeluaran.create') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-coin-euro"></i>
-                        </span>
-                        <span class="hide-menu">Tambah Pengeluaran</span>
-                    </a>
-                </li>
+{{--                <li class="nav-small-cap">--}}
+{{--                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>--}}
+{{--                    <span class="hide-menu">Pengeluaran</span>--}}
+{{--                </li>--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('pengeluaran.index') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-moneybag"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Data Pengeluaran</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="sidebar-item">--}}
+{{--                    <a class="sidebar-link" href="{{ route('pengeluaran.create') }}" aria-expanded="false">--}}
+{{--                        <span>--}}
+{{--                            <i class="ti ti-coin-euro"></i>--}}
+{{--                        </span>--}}
+{{--                        <span class="hide-menu">Tambah Pengeluaran</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
 
 {{--                <li class="nav-small-cap">--}}
 {{--                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>--}}

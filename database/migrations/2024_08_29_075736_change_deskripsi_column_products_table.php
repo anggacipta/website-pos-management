@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('wargas', function (Blueprint $table) {
-            $table->string('no_hp', 15)->after('jenis_kelamin')->nullable();
+        Schema::table('products', function (Blueprint $table) {
+            $table->text('deskripsi')->nullable()->change();
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('wargas', function (Blueprint $table) {
-            //
+        Schema::table('products', function (Blueprint $table) {
+            $table->text('deskripsi')->change();
         });
     }
 };

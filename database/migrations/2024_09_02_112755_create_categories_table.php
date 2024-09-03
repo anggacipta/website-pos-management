@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('pemasukans', function (Blueprint $table) {
-            $table->integer('jumlah')->after('pembayaran_id');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_kategori');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('pemasukans', function (Blueprint $table) {
-            $table->dropColumn('jumlah');
-        });
+        Schema::dropIfExists('categories');
     }
 };

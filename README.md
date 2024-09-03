@@ -1,7 +1,6 @@
-# Website RT RW
+# Website POS Management
 
-Website RT RW adalah website untuk mendata warga yang tinggal di suatu RT RW. Serta mendukung fitur 
-untuk mendata pembayaran iuran bulanan warga. 
+Website POS Management adalah website untuk mengatur penjualan suatu produk. 
 Website ini dibuat menggunakan Laravel 9.
 
 ## Persyaratan
@@ -19,13 +18,13 @@ Ikuti langkah-langkah berikut untuk menginstal proyek ini:
 1. Clone repositori ini:
 
 ```bash
-git clone https://github.com/anggacipta/website-inventaris-rsdh.git
+git clone https://github.com/anggacipta/website-pos-management.git
 ```
 
 2. Masuk ke direktori proyek:
 
 ```bash
-cd website-pegawai-sederhana
+cd nama-direktori-setelah-clone
 ```
 
 3. Instal dependensi PHP dengan Composer:

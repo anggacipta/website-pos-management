@@ -15,13 +15,17 @@ return new class extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('warga_id');
-            $table->string('bulan');
-            $table->string('tahun');
-            $table->integer('jumlah');
-            $table->boolean('status')->default(false);
+            $table->integer('total_harga');
+            $table->integer('uang_diterima');
+            $table->integer('kembalian');
+            $table->string('metode_pembayaran');
+            $table->string('status');
+            $table->string('catatan')->nullable();
+            $table->integer('diskon')->nullable();
+            $table->integer('pajak')->nullable();
 
-            $table->foreign('warga_id')->references('id')->on('wargas')->onDelete('cascade');
+
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
