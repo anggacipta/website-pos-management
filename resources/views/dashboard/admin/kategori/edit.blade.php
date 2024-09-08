@@ -1,5 +1,5 @@
 @extends('dashboard.admin.layouts.main')
-@section('title', 'Edit Data Kategori')
+@section('title', 'Edit Data Kategori Produk')
 @section('content')
     <!--  Header Start -->
     @include('dashboard.admin.layouts.navbar')
@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title fw-semibold mb-4">Edit Data Kategori</h5>
+                <h5 class="card-title fw-semibold mb-4">Edit Data Kategori Produk</h5>
                 <div class="card">
                     <div class="card-body">
                         @if ($errors->any())
@@ -23,7 +23,7 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label for="name" class="form-label">Nama Kategori:</label>
+                                <label for="name" class="form-label">Nama Kategori Produk:</label>
                                 <input type="text" name="nama_kategori" id="name" class="form-control" value="{{ $kategori->nama_kategori }}" required>
                             </div>
 

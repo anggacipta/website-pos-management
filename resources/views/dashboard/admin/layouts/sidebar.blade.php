@@ -3,7 +3,10 @@
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <div>
-                <img src="{{ asset('assets/images/logos/dark-logo.svg') }}" width="">
+                <img src="{{ asset('assets/images/logos/logo-barokah.jpeg') }}" width="50" height="50">
+            </div>
+            <div>
+                <p class="fs-4 fw-bold mt-3" style="">Warung Barokah <br> 313</p>
             </div>
             <div>
                 <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none">
@@ -28,18 +31,46 @@
                     </a>
                 </li>
                 @endif
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                        <span class="d-flex">
+                            <i class="ti ti-layout-dashboard"></i>
+                        </span>
+                        <span class="hide-menu">
+                            Data Master
+                        </span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a href="{{ route('alamat.index') }}" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-circle"></i>
+                                </div>
+                                <span class="hide-menu">Data Alamat Toko</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('kategori.index') }}" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-circle"></i>
+                                </div>
+                                <span class="hide-menu">Data Kategori Produk</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('kategori-pengeluaran.index') }}" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-circle"></i>
+                                </div>
+                                <span class="hide-menu">Data Kategori Pengeluaran</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Produk</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('kategori.index') }}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-cards"></i>
-                        </span>
-                        <span class="hide-menu">Data Kategori</span>
-                    </a>
                 </li>
                 @can('read.barang')
                 <li class="sidebar-item">
@@ -61,56 +92,51 @@
                     </a>
                 </li>
                 @endcan
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('pemasukan.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-coin-monero"></i>
+                        </span>
+                        <span class="hide-menu">Data Pemasukan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('products.create-kurang-stok') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-home-minus"></i>
+                        </span>
+                        <span class="hide-menu">Kurangi Stok</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('products.kurang-stok') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-analytics"></i>
+                        </span>
+                        <span class="hide-menu">Log Pengurangan Stok</span>
+                    </a>
+                </li>
 
-{{--                <li class="nav-small-cap">--}}
-{{--                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>--}}
-{{--                    <span class="hide-menu">Pembayaran</span>--}}
-{{--                </li>--}}
-{{--                <li class="sidebar-item">--}}
-{{--                    <a class="sidebar-link" href="{{ route('pembayaran.index') }}" aria-expanded="false">--}}
-{{--                        <span>--}}
-{{--                            <i class="ti ti-moneybag"></i>--}}
-{{--                        </span>--}}
-{{--                        <span class="hide-menu">Data Pembayaran</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                <li class="sidebar-item">--}}
-{{--                    <a class="sidebar-link" href="{{ route('pembayaran.create') }}" aria-expanded="false">--}}
-{{--                        <span>--}}
-{{--                            <i class="ti ti-coin-monero"></i>--}}
-{{--                        </span>--}}
-{{--                        <span class="hide-menu">Tambah Pembayaran</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                <li class="sidebar-item">--}}
-{{--                    <a class="sidebar-link" href="{{ route('pemasukan.index') }}" aria-expanded="false">--}}
-{{--                        <span>--}}
-{{--                            <i class="ti ti-coin-euro"></i>--}}
-{{--                        </span>--}}
-{{--                        <span class="hide-menu">Data Pemasukan</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-
-{{--                <li class="nav-small-cap">--}}
-{{--                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>--}}
-{{--                    <span class="hide-menu">Pengeluaran</span>--}}
-{{--                </li>--}}
-{{--                <li class="sidebar-item">--}}
-{{--                    <a class="sidebar-link" href="{{ route('pengeluaran.index') }}" aria-expanded="false">--}}
-{{--                        <span>--}}
-{{--                            <i class="ti ti-moneybag"></i>--}}
-{{--                        </span>--}}
-{{--                        <span class="hide-menu">Data Pengeluaran</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                <li class="sidebar-item">--}}
-{{--                    <a class="sidebar-link" href="{{ route('pengeluaran.create') }}" aria-expanded="false">--}}
-{{--                        <span>--}}
-{{--                            <i class="ti ti-coin-euro"></i>--}}
-{{--                        </span>--}}
-{{--                        <span class="hide-menu">Tambah Pengeluaran</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Pengeluaran</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('pengeluaran.create') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-zoom-money"></i>
+                        </span>
+                        <span class="hide-menu">Tambah Pengeluaran</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('pengeluaran.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-description"></i>
+                        </span>
+                        <span class="hide-menu">Log Pengeluaran</span>
+                    </a>
+                </li>
 
 {{--                <li class="nav-small-cap">--}}
 {{--                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>--}}
@@ -176,7 +202,7 @@
         <div class="fixed-profile p-3 mx-4 mb-2 bg-secondary-subtle rounded mt-3">
             <div class="hstack gap-3">
                 <div class="john-img">
-                    <img src="{{ asset('assets/images/profile/itdh.jpeg') }}" class="rounded-circle" width="40" height="40" alt="modernize-img">
+                    <img src="{{ asset('assets/images/logos/logo-barokah.jpeg') }}" class="rounded-circle" width="40" height="40" alt="modernize-img">
                 </div>
                 <div class="john-title">
                     <h6 class="mb-0 fs-4 fw-semibold">{{ auth()->user()->name }}</h6>

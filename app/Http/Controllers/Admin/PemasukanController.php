@@ -1,44 +1,44 @@
 <?php
 
+// app/Http/Controllers/Admin/PemasukanController.php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pemasukan;
+use App\Models\Pembayaran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PemasukanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $currentMonth = Carbon::now()->month;
-        $currentYear = Carbon::now()->year;
-        $lastMonth = Carbon::now()->subMonth()->month;
-        $lastMonthYear = Carbon::now()->subMonth()->year;
+        $query = Pembayaran::query();
 
-        // Total income for the current month
-        $totalCurrentMonth = Pemasukan::whereHas('pembayaran', function($query) use ($currentMonth, $currentYear) {
-            $query->where('status', 1);
-        })->whereMonth('created_at', $currentMonth)
-            ->whereYear('created_at', $currentYear)
-            ->sum('jumlah'); // Ensure the correct column is being summed
+        if ($request->has(['tanggal1', 'tanggal2'])) {
+            $tanggal1 = Carbon::createFromFormat('m/d/Y', $request->input('tanggal1'))->startOfDay();
+            $tanggal2 = Carbon::createFromFormat('m/d/Y', $request->input('tanggal2'))->endOfDay();
+            $query->whereBetween('created_at', [$tanggal1, $tanggal2]);
+        }
 
-        // Total income for the last month
-        $totalLastMonth = Pemasukan::whereHas('pembayaran', function($query) use ($lastMonth, $lastMonthYear) {
-            $query->where('status', 1);
-        })->whereMonth('created_at', $lastMonth)
-            ->whereYear('created_at', $lastMonthYear)
-            ->sum('jumlah'); // Ensure the correct column is being summed
+        $pembayarans = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        // Total Income
-        $totalIncome = Pemasukan::whereHas('pembayaran', function($query) {
-            $query->where('status', 1);
-        })->sum('jumlah');
+        // Calculate total income for the current month
+        $totalCurrentMonth = Pembayaran::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->sum('total_harga');
 
-        $pemasukans = Pemasukan::whereHas('pembayaran', function($query) {
-            $query->where('status', 1);
-        })->orderBy('created_at', 'desc')->paginate(10);
+        // Calculate total income for the current day
+        $totalToday = Pembayaran::whereDate('created_at', Carbon::today())->sum('total_harga');
 
-        return view('dashboard.admin.pemasukan.index', compact('pemasukans', 'totalCurrentMonth', 'totalLastMonth', 'totalIncome'));
+        return view('dashboard.admin.pemasukan.index', compact('pembayarans', 'totalCurrentMonth', 'totalToday'));
+    }
+
+    public function show($id)
+    {
+        $pembayaran = Pembayaran::with('items.product')->findOrFail($id);
+
+        return view('dashboard.admin.pemasukan.detail_invoice', compact('pembayaran'));
     }
 }

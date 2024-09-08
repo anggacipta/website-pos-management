@@ -12,11 +12,15 @@
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    {{--  Sweet Alert 2  --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+
     {{--  Jquery  --}}
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
 </head>
 <body>
-<a href="{{ route('dashboard.index') }}" class="text-dark">Kembali ke Dashboard</a>
+<a href="{{ route('dashboard.index') }}" class="text-dark fw-bold"><span><i class="ti ti-arrow-left mt-4 ms-3"></i></span>Kembali ke Dashboard</a>
 <div class="mx-3">
     <div class="row mt-3">
         <!-- Cart Section -->
@@ -64,12 +68,18 @@
 
         <!-- Products Section -->
         <div class="col-xxl-8 col-lg-7 col-12">
-            <h2>Products</h2>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Products</h2>
+                <form method="GET" id="search-form" action="{{ route('pos.index') }}" class="d-flex">
+                    <input type="text" id="search-query" class="form-control me-2" placeholder="Search products">
+                    <button type="submit" class="btn text-light" style="background-color: darkgreen">Search</button>
+                </form>
+            </div>
             <!-- Filter Buttons -->
-            <div class="mb-3">
-                <button class="btn btn-primary me-1 filter-button" data-category-id="all">All</button>
+            <div class="mb-3 mt-3">
+                <button class="btn btn-info me-1 filter-button" data-category-id="all">All</button>
                 @foreach ($kategoris as $kategori)
-                    <button class="btn btn-primary mx-1 filter-button" data-category-id="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</button>
+                    <button class="btn btn-info mx-1 filter-button" data-category-id="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</button>
                 @endforeach
             </div>
             <div class="row" id="product-list">
@@ -176,10 +186,26 @@
 {{-- End Body Wrap --}}
 <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 <script>
-    @if(session('invoice_url'))
-    window.open("{{ session('invoice_url') }}", '_blank');
+    @if(session('success'))
+    Swal.fire({
+        title: 'Payment Successful!',
+        text: 'Do you want to print the invoice?',
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonText: 'Print Invoice',
+        cancelButtonText: 'Close'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.open('/pos/invoice/{{ session('payment_id') }}', '_blank');
+        }
+    });
     @endif
 </script>
+{{--<script>--}}
+{{--    @if(session('invoice_url'))--}}
+{{--    window.open("{{ session('invoice_url') }}", '_blank');--}}
+{{--    @endif--}}
+{{--</script>--}}
 <script>
     $(document).ready(function() {
         // Event handlers
@@ -189,6 +215,35 @@
                 $.post("{{ url('/pos/add-to-cart') }}/" + id, {_token: "{{ csrf_token() }}"}, function(data) {
                     updateCart(data.cart);
                     updateProductStock(data.product);
+                });
+            });
+
+            // Search form
+            $('#search-form').on('submit', function(e) {
+                e.preventDefault();
+                var query = $('#search-query').val();
+                $.ajax({
+                    url: '{{ route('pos.search') }}',
+                    method: 'GET',
+                    data: { query: query },
+                    success: function(response) {
+                        $('#product-list').empty();
+                        response.products.forEach(function(product) {
+                            $('#product-list').append(`
+                            <div class="col-md-4 product-row" data-category-id="${product.kategori_id}">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <img class="card-img" src="${product.gambar}" height="200" width="200" alt="">
+                                        <h5 class="card-title">${product.nama_produk}</h5>
+                                        <p class="card-text">Price: ${product.harga}</p>
+                                        <p class="card-text">Stock: <span id="product-stock-${product.id}">${product.stok}</span></p>
+                                        <button class="btn btn-primary add-to-cart" data-id="${product.id}" ${product.stok == 0 ? 'disabled' : ''}>Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                        });
+                    }
                 });
             });
 

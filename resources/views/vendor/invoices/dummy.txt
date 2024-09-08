@@ -1,0 +1,31 @@
+<div style="position:absolute; left:0pt; width:250pt;">
+    <img class="img-rounded" height="{{ $invoice->logo_height }}" src="{{ $invoice->logo }}" >
+</div>
+<h1 style="margin-top: 5rem">Invoice #{{ $invoice->number }}</h1>
+<p>Date: {{ $invoice->date }}</p>
+<p>Customer: {{ $invoice->customer_details->get('name') }}</p>
+<table>
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach ($invoice->items as $item)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            @if($invoice->shouldDisplayImageColumn())
+                <td>@if(!is_null($item->get('imageUrl'))) <img src="{{ url($item->get('imageUrl')) }}" />@endif</td>
+            @endif
+            <td>{{ $item->get('price') }}</td>
+            <td>{{ $item->get('name') }}</td>
+{{--            <td>{{ $item->get('price') }} {{ $invoice->formatCurrency()->symbol }}</td>--}}
+            <td>{{ $invoice->formatCurrency()->symbol }} {{ $item->get('totalPrice') }}</td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
+<p>Total: {{ $invoice->formatCurrency()->symbol }} {{ $invoice->totalPriceFormatted() }}</p>

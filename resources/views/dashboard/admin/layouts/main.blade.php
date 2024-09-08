@@ -18,14 +18,14 @@
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" />
 
     {{--  Date Range  --}}
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/daterangepicker/daterangepicker.css') }}" />
 
     <!-- Toastr CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/toastr.js/build/toastr.min.css') }}">
 
     {{--  Sweet Alert 2  --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <script src="{{ asset('assets/sweetalert2/package/dist/sweetalert2.all.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/sweetalert2/package/dist/sweetalert2.min.css') }}">
 
     {{--  Jquery  --}}
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
@@ -55,12 +55,19 @@
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.js') }}"></script>
 {{--    <script src="{{ asset('assets/js/widget/widgets-chart.js') }}"></script>--}}
     {{--  DateRange  --}}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/daterangepicker/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/daterangepicker/daterangepicker.js') }}"></script>
     <script type="text/javascript">
         $(function() {
             $('#date').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minYear: 1901,
+                maxYear: parseInt(moment().format('YYYY'),10)
+            });
+        });
+        $(function() {
+            $('#date2').daterangepicker({
                 singleDatePicker: true,
                 showDropdowns: true,
                 minYear: 1901,
@@ -109,7 +116,7 @@
         });
     </script>
     {{-- Toastr --}}
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/toastr.js/build/toastr.min.js') }}"></script>
     <script>
         @if (session('success'))
         toastr.success("{{ session('success') }}");

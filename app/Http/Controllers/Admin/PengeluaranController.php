@@ -3,54 +3,60 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\KategoriPengeluaran;
 use App\Models\Pemasukan;
 use App\Models\Pengeluaran;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PengeluaranController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Total Income
-        $totalIncome = Pemasukan::whereHas('pembayaran', function($query) {
-            $query->where('status', 1);
-        })->sum('jumlah');
+        $query = Pengeluaran::query();
 
-        // Total Pengeluaran
-        $totalPengeluaran = Pengeluaran::sum('jumlah');
+        if ($request->has(['tanggal1', 'tanggal2'])) {
+            $tanggal1 = Carbon::createFromFormat('m/d/Y', $request->input('tanggal1'))->startOfDay();
+            $tanggal2 = Carbon::createFromFormat('m/d/Y', $request->input('tanggal2'))->endOfDay();
+            $query->whereBetween('created_at', [$tanggal1, $tanggal2]);
+        }
 
-        // Total Sisa
-        $totalSisa = $totalIncome - $totalPengeluaran;
+        $pengeluarans = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        $pengeluarans = Pengeluaran::paginate(10);
-        return view('dashboard.admin.pengeluaran.index', compact('pengeluarans', 'totalIncome', 'totalPengeluaran', 'totalSisa'));
+        // Calculate total income for the current month
+        $totalCurrentMonth = Pengeluaran::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->sum('harga_barang');
+
+        // Calculate total income for the current day
+        $totalToday = Pengeluaran::whereDate('created_at', Carbon::today())->sum('harga_barang');
+
+        return view('dashboard.admin.pengeluaran.index', compact('pengeluarans', 'totalCurrentMonth', 'totalToday'));
     }
 
     public function create()
     {
-        return view('dashboard.admin.pengeluaran.create');
+        $kategoris = KategoriPengeluaran::all();
+        return view('dashboard.admin.pengeluaran.create', compact('kategoris'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'jumlah' => 'required|integer',
-            'keterangan' => 'required|string'
+            'nama_barang' => 'required',
+            'harga_barang' => 'required',
+            'jumlah_barang' => 'nullable',
+            'potongan' => 'nullable|integer',
+            'satuan' => 'required',
+            'nama_toko' => 'required',
+            'kategori_id' => 'required',
         ]);
 
-        // Total Income
-        $totalIncome = Pemasukan::whereHas('pembayaran', function($query) {
-            $query->where('status', 1);
-        })->sum('jumlah');
+        $data = $request->all();
+        $data['potongan'] = $data['potongan'] ?? 0; // Set default value for potongan if not provided
+        $data['jumlah_barang'] = $data['jumlah_barang'] ?? 1; // Set default value for jumlah_barang if not provided
 
-        if ($totalIncome - $request->jumlah <= 0)
-        {
-            Pengeluaran::create($request->all());
-            return redirect()->route('pengeluaran.index')->with('success', 'Pengeluaran berhasil dibuat')
-                ->with('error', 'Pengeluaran lebih dari pendapatan');
-        } else {
-            Pengeluaran::create($request->all());
-            return redirect()->route('pengeluaran.index')->with('success', 'Pengeluaran berhasil dibuat');
-        }
+        Pengeluaran::create($data);
+        return redirect()->route('pengeluaran.index')->with('success', 'Pengeluaran berhasil ditambahkan');
     }
 }

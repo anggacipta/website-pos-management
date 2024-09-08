@@ -35,62 +35,68 @@
                                 </span>
                                 </div>
                                 <div class="col-8">
-                                    <h5 class="text-primary">Total Pemasukan Bulan Lalu</h5>
-                                    <h2 class="text-primary">{{ 'Rp' . number_format($totalLastMonth, 2, ',', '.') }}</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-12 col-md-12">
-                    <div class="card bg-outline-warning border border-3 border-warning shadow-none mb-4">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-2">
-                                <span>
-                                    <i class="ti ti-pig-money text-warning" style="font-size: 5em; text-shadow: 2px 2px 2px lightgrey;"></i>
-                                </span>
-                                </div>
-                                <div class="col-10">
-                                    <h5 class="text-warning">Total Pemasukan</h5>
-                                    <h2 class="text-warning">{{ 'Rp' . number_format($totalIncome, 2, ',', '.') }}</h2>
+                                    <h5 class="text-primary">Total Pemasukan Hari Ini</h5>
+                                    <h2 class="text-primary">{{ 'Rp' . number_format($totalToday, 2, ',', '.') }}</h2>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {{--     Filter Tanggal       --}}
+            <form method="GET" action="{{ route('pemasukan.index') }}" class="mb-2">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="date">Dari Tanggal</label>
+                        <input type="text" name="tanggal1" class="form-control" id="date"
+                               aria-describedby="emailHelp" value="{{ request('tanggal1') }}">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="date2">Sampai Tanggal</label>
+                        <input type="text" name="tanggal2" class="form-control" id="date2"
+                               aria-describedby="emailHelp" value="{{ request('tanggal2') }}">
+                    </div>
+                    <div class="col-md-2" style="margin-top: 18px">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </div>
+            </form>
             {{--      Table      --}}
-            <table id="example1" class="table table-bordered table-striped">
+            <table id="" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Nama Warga</th>
+                    <th>Id Invoice</th>
+                    <th>Total Harga</th>
                     <th>Jumlah Pembayaran</th>
-                    <th>Tanggal Pembayaran</th>
-                    <th>Bulan</th>
-                    <th>Tahun</th>
+                    <th>Tanggal Transaksi</th>
+                    <th>Metode Pembayaran</th>
+                    <th>Status Pembayaran</th>
+                    <th>Detail Transaksi</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($pemasukans as $pemasukan)
+                @foreach ($pembayarans as $pembayaran)
                     <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $pemasukan->pembayaran->warga->nama }}</td>
-                        <td>{{ 'Rp' . number_format($pemasukan->pembayaran->jumlah, 2, ',', '.') }}</td>
-                        @if($pemasukan->updated_at == '')
-                            <td>{{ $pemasukan->updated_at }}</td>
+                        <th scope="row">{{ $pembayaran->id }}</th>
+                        <td>{{ 'Rp' . number_format($pembayaran->total_harga, 2, ',', '.') }}</td>
+                        <td>{{ 'Rp' . number_format($pembayaran->uang_diterima, 2, ',', '.') }}</td>
+                        @if($pembayaran->updated_at == '')
+                            <td>{{ Carbon\Carbon::parse($pembayaran->updated_at)->timezone('Asia/Jakarta')->format('d-m-Y H:i:s') }}</td>
                         @else
-                            <td>{{ $pemasukan->created_at }}</td>
+                            <td>{{ Carbon\Carbon::parse($pembayaran->created_at)->timezone('Asia/Jakarta')->format('d-m-Y H:i:s') }}</td>
                         @endif
-                        <td>{{ \App\Helpers\MonthHelper::getMonthName($pemasukan->pembayaran->bulan) }}</td>
-                        <td>{{ $pemasukan->pembayaran->tahun }}</td>
+                        <td>{{ $pembayaran->metode_pembayaran }}</td>
+                        <td>{{ $pembayaran->status }}</td>
+                        <td>
+                            <a href="{{ route('pemasukan.show', $pembayaran->id) }}" class="btn btn-primary">Detail</a>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
             <div class="d-flex justify-content-center">
-                {{ $pemasukans->links('pagination::bootstrap-4') }}
+                {{ $pembayarans->links('pagination::bootstrap-4') }}
             </div>
         </div>
         @include('dashboard.admin.layouts.footer')

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->unsignedBigInteger('kategori_id')->after('id')->nullable();
-            $table->foreign('kategori_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('kategori_id')->references('id')->on('categories')->onDelete('set default');
         });
     }
 

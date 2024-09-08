@@ -1,5 +1,5 @@
 @extends('dashboard.admin.layouts.main')
-@section('title', 'Data Kategori')
+@section('title', 'Data Kategori Produk')
 @section('content')
     <!--  Header Start -->
     @include('dashboard.admin.layouts.navbar')
@@ -27,7 +27,7 @@
                                 <form action="{{ route('kategori.store') }}" method="post">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Kategori</label>
+                                        <label for="exampleInputEmail1" class="form-label">Kategori Produk</label>
                                         <input type="text" name="nama_kategori" class="form-control" id="nama" aria-describedby="emailHelp">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -49,7 +49,7 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Kategori Barang</th>
+                    <th>Kategori Produk</th>
                     <th>Aksi</th>
                 </tr>
                 </thead>

@@ -29,7 +29,6 @@
                         <td>{{ $product->catatan }}</td>
                         <td>
                             <a href="{{ route('products.tambah-stok', $product->id) }}" class=""><i class="ti ti-browser-plus h2 text-info"></i></a>
-                            <a href="{{ route('products.kurang-stok', $product->id) }}" class=""><i class="ti ti-circle-minus h2 text-danger"></i></a>
                             <a href="{{ route('products.edit', $product->id) }}" class=""><i class="ti ti-edit h2 text-warning"></i></a>
                             <form action="{{ route('products.destroy', $product->id) }}" method="post" class="d-inline delete-form">
                                 @csrf

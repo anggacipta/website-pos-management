@@ -6,15 +6,24 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
 
+    // Route Alamat
+    Route::resource('alamat', \App\Http\Controllers\Admin\AlamatController::class);
+
     // Route Category
     Route::resource('kategori', \App\Http\Controllers\Admin\CategoryController::class);
+
+    // Route Kategori Pengeluaran
+    Route::resource('kategori-pengeluaran', \App\Http\Controllers\Admin\KategoriPengeluaranController::class);
 
     // Route Product
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
     Route::get('tambah-stok/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'tambahStok'])->name('products.tambah-stok');
-    Route::get('kurang-stok/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'kurangStok'])->name('products.kurang-stok');
     Route::put('update-stok-tambah/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'updateStokTambah'])->name('products.update-stok-tambah');
-    Route::put('update-stok-kurang/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'updateStokKurang'])->name('products.update-stok-kurang');
+
+    // Route Pengurangan Stok
+    Route::get('kurang-stok', [\App\Http\Controllers\Admin\PenguranganStokController::class, 'indexKurangStok'])->name('products.kurang-stok');
+    Route::get('create/kurang-stok', [\App\Http\Controllers\Admin\PenguranganStokController::class, 'createKurangStok'])->name('products.create-kurang-stok');
+    Route::put('update/stok-kurang', [\App\Http\Controllers\Admin\PenguranganStokController::class, 'updateStokKurang'])->name('products.update-stok-kurang');
 
     // Route POS
     Route::get('/pos', [\App\Http\Controllers\Admin\POSController::class, 'index'])->name('pos.index');
@@ -24,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pos/search', [\App\Http\Controllers\Admin\POSController::class, 'search'])->name('pos.search');
     Route::post('/pos/process-payment', [\App\Http\Controllers\Admin\POSController::class, 'processPayment'])->name('pos.processPayment');
     Route::get('/pos/invoice/{id}', [\App\Http\Controllers\Admin\POSController::class, 'showInvoice'])->name('pos.showInvoice');
+
     // Route Pembayaran
     Route::resource('pembayaran', \App\Http\Controllers\Admin\PembayaranController::class);
 
@@ -34,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route Pemasukan
     Route::get('pemasukan', [\App\Http\Controllers\Admin\PemasukanController::class, 'index'])->name('pemasukan.index');
+    Route::get('pemasukan/{id}', [\App\Http\Controllers\Admin\PemasukanController::class, 'show'])->name('pemasukan.show');
 
     // Route Roles
     Route::resource('roles', \App\Http\Controllers\RolePermissionController::class);
@@ -55,3 +66,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 });
+
+Route::get('/test-invoice', function () {
+    return view('dashboard.admin.products.test_invoice');
+});
+Route::get('/logo', [\App\Http\Controllers\Admin\POSController::class, 'showLogo'])->name('logo.show');

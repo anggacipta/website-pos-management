@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\LogPenguranganStok;
 use App\Models\Product;
 use App\Service\ImageUploadService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -74,6 +76,13 @@ class ProductController extends Controller
                 'gambar' => 'required|image|mimes:jpg,jpeg,png,svg,webp',
             ]);
 
+            // Delete the old image file if it exists
+            $oldImagePath = public_path($product->gambar);
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+
+            // Upload the new image and update the product's image path
             $imagePath = $this->imageUploadService->upload($request->file('gambar'));
             $product->gambar = $imagePath;
         }
@@ -112,12 +121,6 @@ class ProductController extends Controller
         return view('dashboard.admin.products.create_stok', compact('product'));
     }
 
-    public function kurangStok($id)
-    {
-        $product = Product::find($id);
-        return view('dashboard.admin.products.kurang_stok', compact('product'));
-    }
-
     public function updateStokTambah(Request $request, $id)
     {
         $request->validate([
@@ -129,18 +132,5 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()->route('products.index')->with('success', 'Stock berhasil ditambahkan');
-    }
-
-    public function updateStokKurang(Request $request, $id)
-    {
-        $request->validate([
-            'stok' => 'required',
-        ]);
-
-        $product = Product::find($id);
-        $product->stok -= $request->stok;
-        $product->save();
-
-        return redirect()->route('products.index')->with('success', 'Stock berhasil dikurangi');
     }
 }

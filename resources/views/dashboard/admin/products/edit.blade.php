@@ -49,7 +49,7 @@
                                 <select class="form-control js-example-basic-single" name="kategori_id" id="kategori_id">
                                     <option value="">Pilih Kategori</option>
                                     @foreach ($kategoris as $kategori)
-                                        <option value="{{ $kategori->id }}" {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>{{ $kategori->nama_kategori }}</option>
+                                        <option value="{{ $kategori->id }}" {{ $product->kategori_id == $kategori->id ? 'selected' : '' }}>{{ $kategori->nama_kategori }}</option>
                                     @endforeach
                                 </select>
                                 @if ($errors->has('kategori_id'))

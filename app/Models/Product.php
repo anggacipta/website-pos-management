@@ -22,4 +22,9 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'kategori_id');
     }
+
+    public function logs()
+    {
+        return $this->hasMany(LogPenguranganStok::class);
+    }
 }

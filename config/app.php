@@ -169,6 +169,7 @@ return [
          */
         \Spatie\Permission\PermissionServiceProvider::class,
         \Barryvdh\DomPDF\ServiceProvider::class,
+        \LaravelDaily\Invoices\InvoiceServiceProvider::class,
         /*
          * Application Service Providers...
          */

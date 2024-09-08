@@ -8,13 +8,16 @@ use App\Models\PembayaranItems;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Session;
-use ConsoleTVs\Invoices\Classes\Invoice;
-use ConsoleTVs\Invoices\Classes\Items\InvoiceItem;
+//use ConsoleTVs\Invoices\Classes\Invoice;
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 class POSController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->input('query');
         $products = Product::all();
         $kategoris = Category::all();
         $cart = Session::get('cart', []);
@@ -65,13 +68,14 @@ class POSController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        $invoice = Invoice::make()
-            ->template('default') // Use the default template
-            ->number($pembayaran->id)
-            ->with_pagination(true)
-            ->duplicate_header(true)
-            ->logo(public_path('assets/images/logos/dark-logo.svg'));
+        $customer = new Buyer([
+            'name' => auth()->user()->name,
+            'custom_fields' => [
+                'email' => auth()->user()->email,
+            ],
+        ]);
 
+        $items = [];
         foreach ($cart as $id => $item) {
             PembayaranItems::create([
                 'pembayaran_id' => $pembayaran->id,
@@ -80,36 +84,59 @@ class POSController extends Controller
                 'harga' => $item['harga'],
             ]);
 
-            $invoice->addItem($item['nama_produk'], $item['quantity'], $item['harga']);
+            $items[] = (new InvoiceItem())->title($item['nama_produk'])->pricePerUnit($item['harga'])->quantity($item['quantity']);
         }
 
-        Session::forget('cart');
+        $invoice = Invoice::make()
+            ->buyer($customer)
+            ->addItems($items)
+            ->date(now())
+            ->dateFormat('d/m/Y')
+            ->currencySymbol('Rp')
+            ->currencyCode('IDR')
+            ->currencyFormat('{SYMBOL}{VALUE}')
+            ->currencyThousandsSeparator('.')
+            ->currencyDecimalPoint(',')
+            ->template('custom') // Use the custom template
+            ->logo(public_path('assets/images/logos/logo-barokah.jpeg')); // Set the logo path
 
         $invoice->save('public');
 
-        // Redirect to pos.index and open a new tab to show the invoice
-        return redirect()->route('pos.index')->with('success', 'Pembayaran sukses')->with('invoice_url', route('pos.showInvoice', ['id' => $pembayaran->id]));
+        Session::forget('cart');
+
+        return redirect()->route('pos.index')->with('success', 'Pembayaran sukses')->with('payment_id', $pembayaran->id);
     }
 
     public function showInvoice($id)
     {
         $pembayaran = Pembayaran::with('items.product')->findOrFail($id);
-        $invoice = Invoice::make()
-            ->template('default')
-            ->number($pembayaran->id)
-            ->with_pagination(true)
-            ->duplicate_header(true)
-            ->logo(public_path('assets/images/logos/dark-logo.svg'));
+        $customer = new Buyer([
+            'name' => auth()->user()->name,
+            'custom_fields' => [
+                'email' => auth()->user()->email,
+            ],
+        ]);
 
-        if ($pembayaran->items) {
-            foreach ($pembayaran->items as $item) {
-                $invoice->addItem($item->product->nama_produk, $item->jumlah, $item->harga);
-            }
+        $items = [];
+        foreach ($pembayaran->items as $item) {
+            $items[] = (new InvoiceItem())->title($item->product->nama_produk)->pricePerUnit($item->harga)->quantity($item->jumlah);
         }
 
-        return $invoice->show();
-    }
+        $invoice = Invoice::make()
+            ->buyer($customer)
+            ->addItems($items)
+            ->date($pembayaran->created_at)
+            ->dateFormat('d/m/Y')
+            ->currencySymbol('Rp')
+            ->currencyCode('IDR')
+            ->currencyFormat('{SYMBOL}{VALUE}')
+            ->currencyThousandsSeparator('.')
+            ->currencyDecimalPoint(',')
+            ->template('custom') // Use the custom template
+            ->logo(public_path('assets/images/logos/logo-barokah.jpeg')); // Set the logo path
 
+        return $invoice->stream();
+    }
     public function increaseCartItem($id)
     {
         $cart = Session::get('cart', []);
@@ -150,5 +177,14 @@ class POSController extends Controller
         $query = $request->input('query');
         $products = Product::where('nama_produk', 'like', "%$query%")->get();
         return response()->json(['products' => $products]);
+    }
+
+    public function showLogo()
+    {
+        $path = public_path('images/20240902_Aqt7UlXDa8.jpg');
+        if (!file_exists($path)) {
+            abort(404);
+        }
+        return response()->file($path);
     }
 }
