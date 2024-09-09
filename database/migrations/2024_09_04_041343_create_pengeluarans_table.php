@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('satuan');
             $table->string('nama_toko');
 
-            $table->foreign('kategori_id')->references('id')->on('kategori_pengeluarans')->onUpdate('cascade')->onDelete('set default');
+            $table->foreign('kategori_id')->references('id')->on('kategori_pengeluarans')->onUpdate('cascade');
             $table->timestamps();
         });
     }
