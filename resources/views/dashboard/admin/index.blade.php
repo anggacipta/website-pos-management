@@ -36,6 +36,15 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h5>
+                                    <span><i class="ti ti-home-check"></i></span>
+                                    Laporan Bulanan
+                                </h5>
+                            </div>
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
                             <div class="col-md-6 text-center">
                                 <h5>
                                     <span><i class="ti ti-transfer-out"></i></span>
