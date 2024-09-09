@@ -72,7 +72,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5>Total Penjualan Hari Ini</h5>
+                        <h5>Total Penjualan Harian</h5>
                         <div id="chart-penjualan-hari-ini" style="width: 100%; height: 400px;"></div>
                     </div>
                 </div>
