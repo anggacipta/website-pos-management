@@ -21,7 +21,7 @@
                             <form action="{{ route('users.store') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Name:</label>
+                                    <label for="name" class="form-label">Nama:</label>
                                     <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
                                     @if ($errors->has('name'))
                                         <div class="error">{{ $errors->first('name') }}</div>
@@ -70,19 +70,6 @@
                                     </select>
                                     @if ($errors->has('role_id'))
                                         <div class="error">{{ $errors->first('role_id') }}</div>
-                                    @endif
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="unit_kerja_id" class="form-label">Unit Kerja</label>
-                                    <select class="form-control js-example-basic-single" name="unit_kerja_id" id="unit_kerja_id">
-                                        <option value="">Pilih Unit Kerja</option>
-                                        @foreach ($unitKerjas as $unit)
-                                            <option value="{{ $unit->id }}" {{ old('unit_kerja_id') == $unit->id ? 'selected' : '' }}>{{ $unit->unit_kerja }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if ($errors->has('unit_kerja_id'))
-                                        <div class="error">{{ $errors->first('unit_kerja_id') }}</div>
                                     @endif
                                 </div>
 

@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
 
     <!-- Toastr CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/toastr-js/build/toastr.min.css') }}">
 
     {{--  Sweet Alert 2  --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <script src="{{ asset('assets/sweetalert2/package/dist/sweetalert2.all.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/sweetalert2/package/dist/sweetalert2.min.css') }}">
 
     {{--  Jquery  --}}
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
@@ -124,18 +124,19 @@
                             <input type="hidden" name="pajak" id="modal-pajak">
                             <div class="mb-3">
                                 <label for="uang_diterima" class="form-label">Uang Diterima</label>
-                                <input type="number" name="uang_diterima" class="form-control" id="uang_diterima" required>
+                                <input type="text" class="form-control" id="uang_diterima" required>
+                                <input type="hidden" name="uang_diterima" id="uang_diterima_hidden">
                             </div>
                             <div class="mb-3">
                                 <label for="uang_kembalian" class="form-label">Kembalian</label>
-                                <input type="number" name="kembalian" class="form-control" id="uang_kembalian" disabled>
+                                <p class="h5" id="uang_kembalian"></p>
+                                <input type="hidden" name="uang_kembalian" id="uang_kembalian_hidden">
                             </div>
                             <div class="mb-3">
                                 <label for="metode_pembayaran" class="form-label">Metode Pembayaran</label>
                                 <select name="metode_pembayaran" class="form-select" id="metode_pembayaran" required>
                                     <option value="cash">Cash</option>
                                     <option value="debit">Debit</option>
-                                    <option value="credit">Credit</option>
                                     <option value="qris">QRIS</option>
                                 </select>
                             </div>
@@ -193,10 +194,10 @@
         icon: 'success',
         showCancelButton: true,
         confirmButtonText: 'Print Invoice',
-        cancelButtonText: 'Close'
+        cancelButtonText: 'Tutup'
     }).then((result) => {
         if (result.isConfirmed) {
-            window.open('/pos/invoice/{{ session('payment_id') }}', '_blank');
+            window.open("{{ route('pos.showInvoice', ['id' => session('payment_id')]) }}", '_blank');
         }
     });
     @endif
@@ -264,6 +265,26 @@
             });
         }
 
+        // Function to format number with commas as thousands separators
+        function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Function to format number as Rupiah
+        function formatRupiah(number) {
+            return 'Rp' + formatNumberWithCommas(number);
+        }
+
+        // Event listener to format the displayed value
+        document.getElementById('uang_diterima').addEventListener('input', function (e) {
+            // Remove non-numeric characters
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            // Store the unformatted value in a hidden input field
+            document.getElementById('uang_diterima_hidden').value = value;
+            // Format the displayed value with commas
+            e.target.value = formatNumberWithCommas(value);
+        });
+
         // Update Cart
         function updateCart(cart) {
             var total = 0;
@@ -317,10 +338,16 @@
 
         // Calculate Change
         function calculateChange() {
-            var uangDiterima = parseInt($('#uang_diterima').val()) || 0;
-            var totalBayar = parseInt($('#invoice-total-bayar').text().replace(/[^0-9]/g, ''));
+            // Parse the uang_diterima value as an integer
+            var uangDiterima = parseInt(document.getElementById('uang_diterima_hidden').value) || 0;
+            // Parse the totalBayar value as an integer
+            var totalBayar = parseInt(document.getElementById('invoice-total-bayar').textContent.replace(/[^0-9]/g, '')) || 0;
+            // Calculate the change
             var kembalian = uangDiterima - totalBayar;
-            $('#uang_kembalian').val(kembalian);
+            // Update the uang_kembalian input field with formatted value
+            document.getElementById('uang_kembalian').textContent = formatRupiah(kembalian);
+            // Store the unformatted value in a hidden input field
+            document.getElementById('uang_kembalian_hidden').value = kembalian;
         }
 
         // Event listeners
@@ -362,7 +389,7 @@
 </script>
 
 {{-- Toastr --}}
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript" src="{{ asset('assets/toastr-js/build/toastr.min.js') }}"></script>
 <script>
     @if (session('success'))
     toastr.success("{{ session('success') }}");

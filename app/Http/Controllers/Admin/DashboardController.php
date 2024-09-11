@@ -49,6 +49,26 @@ class DashboardController extends Controller
                 ];
             });
 
+        // Fetch total pengeluarans for the last 7 days
+        $pengeluaranHariIni = Pengeluaran::select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(harga_barang) as total'))
+            ->whereBetween('created_at', [Carbon::now()->subDays(6), Carbon::now()])
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        // Fetch total pengeluarans for the last 12 months
+        $pengeluaranBulanIni = Pengeluaran::select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(harga_barang) as total'))
+            ->whereYear('created_at', Carbon::now()->year)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'month' => Carbon::create()->month($item->month)->format('F'),
+                    'total' => $item->total
+                ];
+            });
+
         // Fetch total pembayarans and pengeluarans for the pie chart
         $totalPembayarans = Pembayaran::sum('total_harga');
         $totalPengeluarans = Pengeluaran::sum('harga_barang');
@@ -59,6 +79,7 @@ class DashboardController extends Controller
 
         return view('dashboard.admin.index', compact('pengeluaranData', 'totalPengeluaranHariIni', 'penjualanHariIni',
             'penjualanBulanIni', 'totalPembayarans', 'totalPengeluarans',
-            'totalPemasukanBulanan', 'totalPengeluaranBulanan'));
+            'totalPemasukanBulanan', 'totalPengeluaranBulanan',
+            'pengeluaranHariIni', 'pengeluaranBulanIni'));
     }
 }

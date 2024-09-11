@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/daterangepicker/daterangepicker.css') }}" />
 
     <!-- Toastr CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/toastr.js/build/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/toastr-js/build/toastr.min.css') }}">
 
     {{--  Sweet Alert 2  --}}
     <script src="{{ asset('assets/sweetalert2/package/dist/sweetalert2.all.js') }}"></script>
@@ -116,7 +116,7 @@
         });
     </script>
     {{-- Toastr --}}
-    <script type="text/javascript" src="{{ asset('assets/toastr.js/build/toastr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/toastr-js/build/toastr.min.js') }}"></script>
     <script>
         @if (session('success'))
         toastr.success("{{ session('success') }}");

@@ -29,7 +29,6 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role_id' => 'required|exists:roles,id',
-            'unit_kerja_id' => 'required|exists:unit_kerjas,id',
         ]);
 
         $user = User::create([
@@ -38,7 +37,6 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
-            'unit_kerja_id' => $request->unit_kerja_id,
         ]);
 
         $role = Role::find($request->role_id);
@@ -58,12 +56,10 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'unit_kerja_id' => 'required|exists:unit_kerjas,id',
         ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->unit_kerja_id = $request->unit_kerja_id;
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
@@ -75,6 +71,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.index')->with('error', 'User deleted successfully.');
     }
 }

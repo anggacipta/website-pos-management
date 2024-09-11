@@ -50,14 +50,14 @@
                                     <span><i class="ti ti-transfer-out"></i></span>
                                     Total Pengeluaran
                                 </h5>
-                                <p class="card-text">Rp{{ $totalPengeluaranBulanan }}</p>
+                                <p class="card-text">Rp{{ number_format($totalPengeluaranBulanan) }}</p>
                             </div>
                             <div class="col-md-6 text-center">
                                 <h5>
                                     <span><i class="ti ti-transfer-in"></i></span>
                                     Total Pemasukan
                                 </h5>
-                                <p class="card-text">Rp{{ $totalPemasukanBulanan }}</p>
+                                <p class="card-text">Rp{{ number_format($totalPemasukanBulanan) }}</p>
                             </div>
                             <div class="col-md-12">
                                 <hr>
@@ -68,9 +68,9 @@
                                     Selisih
                                 </h5>
                                 @if($totalPemasukanBulanan - $totalPengeluaranBulanan > 0)
-                                    <p class="card-text">Rp{{ $totalPemasukanBulanan - $totalPengeluaranBulanan }}</p>
+                                    <p class="card-text">Rp{{ number_format($totalPemasukanBulanan - $totalPengeluaranBulanan) }}</p>
                                 @else
-                                    <p class="card-text">-Rp{{ $totalPemasukanBulanan - $totalPengeluaranBulanan }}</p>
+                                    <p class="card-text">-Rp{{ number_format($totalPemasukanBulanan - $totalPengeluaranBulanan) }}</p>
                                 @endif
                             </div>
                         </div>
@@ -92,6 +92,24 @@
                     <div class="card-body">
                         <h5>Total Penjualan Bulanan</h5>
                         <div id="chart-penjualan-bulan-ini" style="width: 100%; height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total Pengeluaran Harian</h5>
+                        <div id="chart-pengeluaran-hari-ini" style="width: 100%; height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Total Pengeluaran Bulanan</h5>
+                        <div id="chart-pengeluaran-bulan-ini" style="width: 100%; height: 400px;"></div>
                     </div>
                 </div>
             </div>
@@ -199,6 +217,40 @@
 
             var chartPembayaranPengeluaran = new ApexCharts(document.querySelector("#chart-pembayaran-pengeluaran"), optionsPembayaranPengeluaran);
             chartPembayaranPengeluaran.render();
+
+            var optionsPengeluaranHariIni = {
+                chart: {
+                    type: 'bar',
+                    height: 400
+                },
+                series: [{
+                    name: 'Total Pengeluaran',
+                    data: @json($pengeluaranHariIni->pluck('total'))
+                }],
+                xaxis: {
+                    categories: @json($pengeluaranHariIni->pluck('date'))
+                }
+            };
+
+            var chartPengeluaranHariIni = new ApexCharts(document.querySelector("#chart-pengeluaran-hari-ini"), optionsPengeluaranHariIni);
+            chartPengeluaranHariIni.render();
+
+            var optionsPengeluaranBulanIni = {
+                chart: {
+                    type: 'bar',
+                    height: 400
+                },
+                series: [{
+                    name: 'Total Pengeluaran',
+                    data: @json($pengeluaranBulanIni->pluck('total'))
+                }],
+                xaxis: {
+                    categories: @json($pengeluaranBulanIni->pluck('month'))
+                }
+            };
+
+            var chartPengeluaranBulanIni = new ApexCharts(document.querySelector("#chart-pengeluaran-bulan-ini"), optionsPengeluaranBulanIni);
+            chartPengeluaranBulanIni.render();
         });
     </script>
 @endsection

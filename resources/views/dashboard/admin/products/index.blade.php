@@ -28,15 +28,21 @@
                         <td>{{ $product->stok }} pcs</td>
                         <td>{{ $product->catatan }}</td>
                         <td>
+                            @can('tambah.stok')
                             <a href="{{ route('products.tambah-stok', $product->id) }}" class=""><i class="ti ti-browser-plus h2 text-info"></i></a>
+                            @endcan
+                            @can('update.produk')
                             <a href="{{ route('products.edit', $product->id) }}" class=""><i class="ti ti-edit h2 text-warning"></i></a>
-                            <form action="{{ route('products.destroy', $product->id) }}" method="post" class="d-inline delete-form">
+                            @endcan
+                            @can('hapus.produk')
+                                <form action="{{ route('products.destroy', $product->id) }}" method="post" class="d-inline delete-form">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="" style="border: none">
                                     <i class="ti ti-trash text-danger h2"></i>
                                 </button>
                             </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

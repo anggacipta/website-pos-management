@@ -32,19 +32,6 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="unit_kerja_id" class="form-label">Unit Kerja</label>
-                                <select class="form-control js-example-basic-single" name="unit_kerja_id" id="unit_kerja_id">
-                                    <option value="">Pilih Unit Kerja</option>
-                                    @foreach ($unitKerjas as $unitKerja)
-                                        <option value="{{ $unitKerja->id }}" {{ $user->unitKerja->id == $unitKerja->id ? 'selected' : '' }}>{{ $unitKerja->unit_kerja }}</option>
-                                    @endforeach
-                                </select>
-                                @if ($errors->has('unit_kerja_id'))
-                                    <div class="error">{{ $errors->first('unit_kerja_id') }}</div>
-                                @endif
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="password" class="form-label">Password (kosongkan saja apabila tidak ingin mengganti password):</label>
                                 <input type="password" name="password" class="form-control" id="password">
                             </div>

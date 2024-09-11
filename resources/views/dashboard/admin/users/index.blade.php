@@ -12,7 +12,6 @@
                     <th>Nama User</th>
                     <th>Email</th>
                     <th>Role</th>
-                    <th>Unit Kerja</th>
                     <th>Aksi</th>
                 </tr>
                 </thead>

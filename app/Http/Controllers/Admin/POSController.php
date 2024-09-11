@@ -2,13 +2,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alamat;
 use App\Models\Category;
 use App\Models\Pembayaran;
 use App\Models\PembayaranItems;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Session;
-//use ConsoleTVs\Invoices\Classes\Invoice;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
@@ -87,7 +87,7 @@ class POSController extends Controller
             $items[] = (new InvoiceItem())->title($item['nama_produk'])->pricePerUnit($item['harga'])->quantity($item['quantity']);
         }
 
-        $invoice = Invoice::make()
+        $invoice = Invoice::make('receipt')
             ->buyer($customer)
             ->addItems($items)
             ->date(now())
@@ -99,8 +99,6 @@ class POSController extends Controller
             ->currencyDecimalPoint(',')
             ->template('custom') // Use the custom template
             ->logo(public_path('assets/images/logos/logo-barokah.jpeg')); // Set the logo path
-
-        $invoice->save('public');
 
         Session::forget('cart');
 
@@ -122,10 +120,14 @@ class POSController extends Controller
             $items[] = (new InvoiceItem())->title($item->product->nama_produk)->pricePerUnit($item->harga)->quantity($item->jumlah);
         }
 
-        $invoice = Invoice::make()
+        $alamat = Alamat::query()->first(); // Retrieve the address from the `alamats` table
+
+        $invoice = Invoice::make('receipt')
             ->buyer($customer)
             ->addItems($items)
             ->date($pembayaran->created_at)
+            ->discountByPercent($pembayaran->diskon)
+            ->taxRate($pembayaran->pajak)
             ->dateFormat('d/m/Y')
             ->currencySymbol('Rp')
             ->currencyCode('IDR')
@@ -133,10 +135,16 @@ class POSController extends Controller
             ->currencyThousandsSeparator('.')
             ->currencyDecimalPoint(',')
             ->template('custom') // Use the custom template
-            ->logo(public_path('assets/images/logos/logo-barokah.jpeg')); // Set the logo path
+            ->logo(public_path('assets/images/logos/logo-barokah.jpeg')) // Set the logo path
+            ->setCustomData([
+                'alamat' => $alamat ? $alamat->alamat : '', // Ensure this is a string
+                'uang_diterima' => $pembayaran->uang_diterima,
+                'kembalian' => $pembayaran->kembalian,
+            ]);
 
         return $invoice->stream();
     }
+
     public function increaseCartItem($id)
     {
         $cart = Session::get('cart', []);
