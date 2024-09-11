@@ -9,6 +9,30 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
 
+    <style>
+        .responsive-margin {
+            margin-top: 0;
+        }
+
+        @media (max-width: 1155px) {
+            .responsive-margin {
+                margin-top: 8px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .responsive-margin {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 485px) {
+            .responsive-margin {
+                margin-top: 5px;
+            }
+        }
+    </style>
+
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="{{ asset('assets/toastr-js/build/toastr.min.css') }}">
 
@@ -20,7 +44,7 @@
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
 </head>
 <body>
-<a href="{{ route('dashboard.index') }}" class="text-dark fw-bold"><span><i class="ti ti-arrow-left mt-4 ms-3"></i></span>Kembali ke Dashboard</a>
+<a href="{{ route('dashboard.index') }}" class="btn btn-primary p2"><span><i class="ti ti-arrow-left me-2"></i></span>Kembali ke Dashboard</a>
 <div class="mx-3">
     <div class="row mt-3">
         <!-- Cart Section -->
@@ -44,8 +68,8 @@
                             <td class="price">Rp{{ $item['harga'] }}</td>
                             <td>Rp{{ $item['quantity'] * $item['harga'] }}</td>
                             <td>
-                                <button class="btn btn-success btn-sm increase-cart-item" data-id="{{ $id }}">+</button>
-                                <button class="btn btn-danger btn-sm decrease-cart-item" data-id="{{ $id }}">-</button>
+                                <button class="btn btn-success btn-sm increase-cart-item me-1" data-id="{{ $id }}">+</button>
+                                <button class="btn btn-danger btn-sm decrease-cart-item responsive-margin" style="" data-id="{{ $id }}">-</button>
                             </td>
                         </tr>
                     @endforeach
@@ -53,11 +77,11 @@
                 </table>
             </ul>
             <div class="mb-3">
-                <label for="diskon" class="form-label">Diskon</label>
+                <label for="diskon" class="form-label">Diskon(%)</label>
                 <input type="number" id="diskon" class="form-control">
             </div>
             <div class="mb-3">
-                <label for="pajak" class="form-label">Pajak</label>
+                <label for="pajak" class="form-label">Pajak(%)</label>
                 <input type="number" id="pajak" class="form-control">
             </div>
             <h3>Total: <span id="cart-total">Rp{{ array_sum(array_map(function($item) { return $item['quantity'] * $item['harga']; }, $cart)) }}</span></h3>
@@ -77,9 +101,9 @@
             </div>
             <!-- Filter Buttons -->
             <div class="mb-3 mt-3">
-                <button class="btn btn-info me-1 filter-button" data-category-id="all">All</button>
+                <button class="btn btn-info me-1 mb-2 filter-button" data-category-id="all">All</button>
                 @foreach ($kategoris as $kategori)
-                    <button class="btn btn-info mx-1 filter-button" data-category-id="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</button>
+                    <button class="btn btn-info mx-1 mb-2 filter-button" data-category-id="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</button>
                 @endforeach
             </div>
             <div class="row" id="product-list">
@@ -89,9 +113,9 @@
                             <div class="card-body">
                                 <img class="card-img" src="{{ asset($product->gambar) }}" height="200" width="200" alt="">
                                 <h5 class="card-title">{{ $product->nama_produk }}</h5>
-                                <p class="card-text">Price: {{ $product->harga }}</p>
-                                <p class="card-text">Stock: <span id="product-stock-{{ $product->id }}">{{ $product->stok }}</span></p>
-                                <button class="btn btn-primary add-to-cart" data-id="{{ $product->id }}" {{ $product->stok == 0 ? 'disabled' : '' }}>Add to Cart</button>
+                                <p class="card-text">Harga: Rp{{ number_format($product->harga) }}</p>
+                                <p class="card-text">Stok produk: <span id="product-stock-{{ $product->id }}">{{ $product->stok }}</span></p>
+                                <button class="btn btn-primary add-to-cart" data-id="{{ $product->id }}" {{ $product->stok == 0 ? 'disabled' : '' }}>Tambah produk ke keranjang</button>
                             </div>
                         </div>
                     </div>
@@ -298,8 +322,8 @@
                         '<td class="price">Rp' + item.harga + '</td>' +
                         '<td> Rp' + item.quantity * item.harga + '</td>' +
                         '<td>' +
-                        '<button class="btn btn-success btn-sm increase-cart-item" data-id="' + id + '">+</button>' +
-                        '<button class="btn btn-danger btn-sm decrease-cart-item" data-id="' + id + '">-</button>' +
+                        '<button class="btn btn-success btn-sm increase-cart-item me-1" data-id="' + id + '">+</button>' +
+                        '<button class="btn btn-danger btn-sm decrease-cart-item responsive-margin" data-id="' + id + '">-</button>' +
                         '</td>' +
                         '</tr>'
                     );

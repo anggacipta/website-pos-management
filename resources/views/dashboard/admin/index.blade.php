@@ -130,8 +130,8 @@
                         <h5>Perbandingan Pemasukan dan Pengeluaran</h5>
                         <div id="chart-pembayaran-pengeluaran" style="width: 100%; height: 400px;"></div>
                         <h5>Total Perbandingan</h5>
-                        <p class="card-text">Total pemasukan bulan ini: Rp{{ $totalPemasukanBulanan }}</p>
-                        <p class="card-text">Total pengeluaran bulan ini: Rp{{ $totalPengeluaranBulanan }}</p>
+                        <p class="card-text">Total pemasukan bulan ini: Rp{{ number_format($totalPemasukanBulanan) }}</p>
+                        <p class="card-text">Total pengeluaran bulan ini: Rp{{ number_format($totalPengeluaranBulanan) }}</p>
                     </div>
                 </div>
             </div>
