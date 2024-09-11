@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Create roles
-        Role::create(['name' => 'user']);
+        Role::create(['name' => 'kasir']);
         Role::create(['name' => 'admin']);
 
         $this->call([
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
 
         // Retrieve roles
         $adminRole = Role::where('name', 'admin')->first();
-        $userRole = Role::where('name', 'user')->first();
+        $userRole = Role::where('name', 'kasir')->first();
 
         // Create users and assign roles
         $adminUser = User::create([
@@ -43,8 +43,8 @@ class DatabaseSeeder extends Seeder
 
         $userUser = User::create([
             'name' => 'User',
-            'username' => 'user',
-            'password' => bcrypt('user'),
+            'username' => 'kasir',
+            'password' => bcrypt('kasir'),
             'email' => 'coba@gmail.com',
             'role_id' => $userRole->id,
         ]);

@@ -24,11 +24,13 @@ class PermissionSeeder extends Seeder
             'tambah.stok',
             'kurangi.stok',
             'log.stok',
+            'data.pemasukan',
             'tambah.pengeluaran',
             'log.pengeluaran',
             'users',
             'roles',
             'permission',
+            'pos.system'
         ];
 
         foreach ($permissions as $permission) {
