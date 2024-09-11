@@ -26,11 +26,28 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <form action="{{ route('alamat.store') }}" method="post">
                                     @csrf
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Alamat</label>
-                                        <input type="text" name="alamat" class="form-control" id="nama" aria-describedby="emailHelp">
+                                        <input type="text" name="alamat" class="form-control" id="nama" aria-describedby="emailHelp" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="no_telp" class="form-label">No telepon(maksimal 15 angka)</label>
+                                        <input type="number" name="no_telp" class="form-control" id="no_telp" aria-describedby="emailHelp" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="kota" class="form-label">Kota</label>
+                                        <input type="text" name="kota" class="form-control" id="kota" aria-describedby="emailHelp" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
@@ -52,6 +69,8 @@
                 <tr>
                     <th>No</th>
                     <th>Alamat Toko</th>
+                    <th>No telepon</th>
+                    <th>Kota</th>
                     <th>Aksi</th>
                 </tr>
                 </thead>
@@ -60,6 +79,8 @@
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>{{ $alamat->alamat }}</td>
+                        <td>{{ $alamat->no_telp }}</td>
+                        <td>{{ $alamat->kota }}</td>
                         <td>
                             <a href="{{ route('alamat.edit', $alamat->id) }}" class=""><i class="ti ti-edit h2 text-warning"></i></a>
                             <form action="{{ route('alamat.destroy', $alamat->id) }}" method="post" class="d-inline delete-form">

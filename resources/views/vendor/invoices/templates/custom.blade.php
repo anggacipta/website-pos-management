@@ -60,8 +60,17 @@
             {{ $invoice->getCustomData('alamat') }}
         @endif
         <br>
-        Kota Mojokerto<br>
-        085806081617
+        Kota @if (is_array($invoice->getCustomData()) && !empty($invoice->getCustomData()))
+                {{ array_values($invoice->getCustomData())[4] }}
+            @else
+                {{ $invoice->getCustomData('kota') }}
+            @endif
+            <br>
+            @if (is_array($invoice->getCustomData()) && !empty($invoice->getCustomData()))
+                {{ array_values($invoice->getCustomData())[3] }}
+            @else
+                {{ $invoice->getCustomData('no_telp') }}
+            @endif
     </div>
     <div class="details">
         <strong>Kasir:</strong> {{ $invoice->buyer->name }}<br>

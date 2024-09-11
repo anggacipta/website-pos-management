@@ -26,7 +26,14 @@
                                 <label for="name" class="form-label">Alamat lengkap:</label>
                                 <input type="text" name="alamat" id="name" class="form-control" value="{{ $alamat->alamat }}" required>
                             </div>
-
+                            <div class="mb-3">
+                                <label for="no_telp" class="form-label">No telepon(maksimal 15 angka)</label>
+                                <input type="number" name="no_telp" class="form-control" id="no_telp" value="{{ $alamat->no_telp }}" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="kota" class="form-label">Kota</label>
+                                <input type="text" name="kota" class="form-control" id="kota" value="{{ $alamat->kota }}" aria-describedby="emailHelp">
+                            </div>
                             <button type="submit" class="btn btn-primary">Edit Alamat</button>
                         </form>
                     </div>

@@ -18,7 +18,9 @@ class AlamatController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'alamat' => 'required'
+            'alamat' => 'required',
+            'no_telp' => 'required|min:8|max:15',
+            'kota' => 'required'
         ]);
 
         Alamat::create($request->all());
@@ -35,7 +37,9 @@ class AlamatController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'alamat' => 'required'
+            'alamat' => 'required',
+            'no_telp' => 'required|min:8|max:15',
+            'kota' => 'required'
         ]);
 
         $alamat = Alamat::findOrFail($id);

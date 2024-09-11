@@ -140,6 +140,8 @@ class POSController extends Controller
                 'alamat' => $alamat ? $alamat->alamat : '', // Ensure this is a string
                 'uang_diterima' => $pembayaran->uang_diterima,
                 'kembalian' => $pembayaran->kembalian,
+                'no_telp' => $alamat ? $alamat->no_telp : '', // Ensure this is a string
+                'kota' => $alamat ? $alamat->kota : '', // Ensure this is a string
             ]);
 
         return $invoice->stream();

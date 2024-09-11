@@ -10,6 +10,8 @@ class Alamat extends Model
     use HasFactory;
 
     protected $fillable = [
-        'alamat'
+        'alamat',
+        'no_telp',
+        'kota'
     ];
 }

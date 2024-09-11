@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'admin']);
 
         $this->call([
+            AlamatSeeder::class,
+            CategorySeeder::class,
+            KategoriPengeluaranSeeder::class,
             PermissionSeeder::class,
             RolePermissionSeeder::class,
         ]);
