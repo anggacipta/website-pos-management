@@ -126,8 +126,6 @@ class POSController extends Controller
             ->buyer($customer)
             ->addItems($items)
             ->date($pembayaran->created_at)
-            ->discountByPercent($pembayaran->diskon)
-            ->taxRate($pembayaran->pajak)
             ->dateFormat('d/m/Y')
             ->currencySymbol('Rp')
             ->currencyCode('IDR')
@@ -142,6 +140,10 @@ class POSController extends Controller
                 'kembalian' => $pembayaran->kembalian,
                 'no_telp' => $alamat ? $alamat->no_telp : '', // Ensure this is a string
                 'kota' => $alamat ? $alamat->kota : '', // Ensure this is a string
+                'diskon' => $pembayaran->diskon,
+                'pajak' => $pembayaran->pajak,
+                'total_diskon' => $pembayaran->total_harga * $pembayaran->diskon / 100,
+                'total_pajak' => $pembayaran->total_harga * $pembayaran->pajak / 100,
             ]);
 
         return $invoice->stream();

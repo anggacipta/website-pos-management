@@ -3,6 +3,7 @@
 <head>
     <title>Login</title>
     <!-- Add CSS and JS as needed -->
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/logo-barokah.jpeg') }}" />
 
     {{--  Bootstrap  --}}
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />

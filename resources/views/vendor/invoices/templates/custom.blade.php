@@ -86,19 +86,63 @@
             @endforeach
         </table>
     </div>
+    {{--  Diskon  --}}
     <div class="total">
         <table>
             <tr>
                 <td>Diskon</td>
-                <td>{{ is_array($invoice->total_discount) ? implode(', ', $invoice->total_discount) : $invoice->total_discount }}%</td>
-            </tr>
-            <tr>
-                <td>Pajak</td>
-                <td>{{ is_array($invoice->tax_rate) ? implode(', ', $invoice->tax_rate) : $invoice->tax_rate }}%</td>
+                <td>
+                    @if (is_array($invoice->getCustomData()) && !empty($invoice->getCustomData()))
+                        {{ number_format(array_values($invoice->getCustomData())[5], 0, ',', '.') }}
+                    @else
+                        {{ $invoice->getCustomData('diskon') }}
+                    @endif
+                    %
+                </td>
             </tr>
             <tr>
                 <td>Total</td>
-                <td>Rp {{ is_array($invoice->total_amount) ? implode(', ', $invoice->total_amount) : number_format($invoice->total_amount, 0, ',', '.') }}</td>
+                <td>Rp
+                    @if (is_array($invoice->getCustomData()) && !empty($invoice->getCustomData()))
+                        {{ number_format(array_values($invoice->getCustomData())[7], 0, ',', '.') }}
+                    @else
+                        {{ $invoice->getCustomData('diskon') }}
+                    @endif
+                </td>
+            </tr>
+        </table>
+    </div>
+    {{--  Pajak  --}}
+    <div class="total">
+        <table>
+            <tr>
+                <td class="">Pajak'</td>
+                <td>
+                    @if (is_array($invoice->getCustomData()) && !empty($invoice->getCustomData()))
+                        {{ number_format(array_values($invoice->getCustomData())[6], 0, ',', '.') }}
+                    @else
+                        {{ $invoice->getCustomData('pajak') }}
+                    @endif
+                    %
+                </td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td>Rp
+                    @if (is_array($invoice->getCustomData()) && !empty($invoice->getCustomData()))
+                        {{ number_format(array_values($invoice->getCustomData())[8], 0, ',', '.') }}
+                    @else
+                        {{ $invoice->getCustomData('diskon') }}
+                    @endif
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="total">
+        <table>
+            <tr>
+                <td>Total</td>
+                <td>Rp {{ number_format($invoice->total_amount, 0, ',', '.') }}</td>
             </tr>
             <tr>
                 <td>Tunai</td>
@@ -122,5 +166,6 @@
             </tr>
         </table>
     </div>
+</div>
 </body>
 </html>

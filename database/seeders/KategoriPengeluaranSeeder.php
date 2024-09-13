@@ -16,6 +16,7 @@ class KategoriPengeluaranSeeder extends Seeder
     public function run()
     {
         $categories = [
+            'Default Kategori',
             'Belanja',
             'Tagihan',
             'Gaji',
