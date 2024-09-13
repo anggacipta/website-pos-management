@@ -24,7 +24,7 @@
         .details, .items, .total, .footer {
             margin-top: 10px;
         }
-        .items, .total {
+        .items {
             border-top: 1px dashed #000;
             border-bottom: 1px dashed #000;
         }
@@ -42,6 +42,12 @@
         }
         .logo img {
             max-width: 100px;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #000;
+            width: 100%;
+            /*border-bottom: 1px dashed #000;*/
         }
     </style>
 </head>
@@ -82,11 +88,11 @@
                 <tr>
                     <td>{{ $item->title }}</td>
                     <td>{{ $item->quantity }}x {{ number_format($item->price_per_unit, 0, ',', '.') }}</td>
+                    <td>Rp{{ number_format($item->sub_total_price, '0', ',', '.') }}</td>
                 </tr>
             @endforeach
         </table>
     </div>
-    {{--  Diskon  --}}
     <div class="total">
         <table>
             <tr>
@@ -110,11 +116,7 @@
                     @endif
                 </td>
             </tr>
-        </table>
-    </div>
-    {{--  Pajak  --}}
-    <div class="total">
-        <table>
+            <hr>
             <tr>
                 <td class="">Pajak'</td>
                 <td>
@@ -136,10 +138,8 @@
                     @endif
                 </td>
             </tr>
-        </table>
-    </div>
-    <div class="total">
-        <table>
+            <hr>
+            <tr class="hr"></tr>
             <tr>
                 <td>Total</td>
                 <td>Rp {{ number_format($invoice->total_amount, 0, ',', '.') }}</td>
@@ -165,6 +165,10 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <div class="footer">
+        Terima kasih<br>
+        Semoga puas dengan pelayanan kami
     </div>
 </div>
 </body>
