@@ -94,16 +94,26 @@
                     </a>
                 </li>
                 @endcan
+
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Pemasukan</span>
+                </li>
                 @can('data.pemasukan')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('pemasukan.index') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-coin-monero"></i>
                         </span>
-                        <span class="hide-menu">Data Pemasukan</span>
+                        <span class="hide-menu">Laporan Pemasukan</span>
                     </a>
                 </li>
                 @endcan
+
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Stok</span>
+                </li>
                 @can('kurangi.stok')
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('products.create-kurang-stok') }}" aria-expanded="false">
@@ -145,7 +155,7 @@
                         <span>
                             <i class="ti ti-file-description"></i>
                         </span>
-                        <span class="hide-menu">Log Pengeluaran</span>
+                        <span class="hide-menu">Laporan Pengeluaran</span>
                     </a>
                 </li>
                 @endcan

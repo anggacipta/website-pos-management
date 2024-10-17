@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Session;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
+use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Classes\Seller;
 
 class POSController extends Controller
 {
@@ -97,7 +99,7 @@ class POSController extends Controller
             ->currencyFormat('{SYMBOL}{VALUE}')
             ->currencyThousandsSeparator('.')
             ->currencyDecimalPoint(',')
-            ->template('custom') // Use the custom template
+            ->template('default') // Use the custom template
             ->logo(public_path('assets/images/logos/logo-barokah.jpeg')); // Set the logo path
 
         Session::forget('cart');
@@ -108,22 +110,33 @@ class POSController extends Controller
     public function showInvoice($id)
     {
         $pembayaran = Pembayaran::with('items.product')->findOrFail($id);
+        $alamat = Alamat::query()->first(); // Retrieve the address from the `alamats` table
+        
         $customer = new Buyer([
             'name' => auth()->user()->name,
             'custom_fields' => [
                 'email' => auth()->user()->email,
             ],
         ]);
+        $seller = new Party(
+            [
+                'name' => 'Putra Tunggal Motor',
+                'custom_fields' => [
+                    'address' => $alamat->alamat,
+                    'phone' => $alamat->no_telp,
+                    'city' => $alamat->kota,
+                ]
+            ]
+        );
 
         $items = [];
         foreach ($pembayaran->items as $item) {
             $items[] = (new InvoiceItem())->title($item->product->nama_produk)->pricePerUnit($item->harga)->quantity($item->jumlah);
         }
 
-        $alamat = Alamat::query()->first(); // Retrieve the address from the `alamats` table
-
         $invoice = Invoice::make('receipt')
             ->buyer($customer)
+            ->seller($seller)
             ->addItems($items)
             ->date($pembayaran->created_at)
             ->dateFormat('d/m/Y')
@@ -132,7 +145,8 @@ class POSController extends Controller
             ->currencyFormat('{SYMBOL}{VALUE}')
             ->currencyThousandsSeparator('.')
             ->currencyDecimalPoint(',')
-            ->template('custom') // Use the custom template
+            ->notes($pembayaran->catatan ? 'Catatan: ' . $pembayaran->catatan : '-')
+            ->template('custom4') // Use the custom template
             ->logo(public_path('assets/images/logos/logo-barokah.jpeg')) // Set the logo path
             ->setCustomData([
                 'alamat' => $alamat ? $alamat->alamat : '', // Ensure this is a string

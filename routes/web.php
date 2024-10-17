@@ -34,9 +34,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pos/process-payment', [\App\Http\Controllers\Admin\POSController::class, 'processPayment'])->name('pos.processPayment');
     Route::get('/pos/invoice/{id}', [\App\Http\Controllers\Admin\POSController::class, 'showInvoice'])->name('pos.showInvoice');
 
-    // Route Pembayaran
-    Route::resource('pembayaran', \App\Http\Controllers\Admin\PembayaranController::class);
-
     // Route Pengeluaran
     Route::get('pengeluaran', [\App\Http\Controllers\Admin\PengeluaranController::class, 'index'])->name('pengeluaran.index');
     Route::get('pengeluaran/create', [\App\Http\Controllers\Admin\PengeluaranController::class, 'create'])->name('pengeluaran.create');
@@ -68,6 +65,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/test-invoice', function () {
-    return view('dashboard.admin.products.test_invoice');
+    return view('vendor.invoices.templates.custom3');
 });
 Route::get('/logo', [\App\Http\Controllers\Admin\POSController::class, 'showLogo'])->name('logo.show');

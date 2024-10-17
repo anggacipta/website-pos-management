@@ -29,16 +29,16 @@
                         <td>{{ $product->catatan }}</td>
                         <td>
                             @can('tambah.stok')
-                            <a href="{{ route('products.tambah-stok', $product->id) }}" class=""><i class="ti ti-browser-plus h2 text-info"></i></a>
+                            <a href="{{ route('products.tambah-stok', $product->id) }}" class="icon-tooltip" data-toggle="tooltip" title="Tambah Stok"><i class="ti ti-browser-plus h2 text-info"></i></a>
                             @endcan
                             @can('update.produk')
-                            <a href="{{ route('products.edit', $product->id) }}" class=""><i class="ti ti-edit h2 text-warning"></i></a>
+                            <a href="{{ route('products.edit', $product->id) }}" class="icon-tooltip" data-toggle="tooltip" title="Edit Produk"><i class="ti ti-edit h2 text-warning"></i></a>
                             @endcan
                             @can('hapus.produk')
-                                <form action="{{ route('products.destroy', $product->id) }}" method="post" class="d-inline delete-form">
+                            <form action="{{ route('products.destroy', $product->id) }}" method="post" class="d-inline delete-form">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="" style="border: none">
+                                <button type="submit" class="icon-tooltip" data-toggle="tooltip" title="Hapus Produk" style="border: none">
                                     <i class="ti ti-trash text-danger h2"></i>
                                 </button>
                             </form>
@@ -51,6 +51,12 @@
         </div>
         @include('dashboard.admin.layouts.footer')
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
